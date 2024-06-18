@@ -1,0 +1,9 @@
+{
+    "name": "antoi/tuto",
+    "description": "tuto",
+    "type": "project",
+    "minimum-stability": "stable",
+    "require": {
+        "spipu/html2pdf": "^5.2"
+    }
+}
