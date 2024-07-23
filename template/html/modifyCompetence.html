@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence" onclick="RemoveCookie()">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence" onclick="RemoveCookie()">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve" onclick="RemoveCookie()">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve" onclick="RemoveCookie()">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve" onclick="RemoveCookie()">Attribution des Compétences</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher" onclick="RemoveCookie()">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence" onclick="RemoveCookie()">Supprimer les compétences d'un élève</a></li>
+        </ul>
+
+        <div class="container">
+            <!-- Gestion messages -->
+            <div class="form-message">
+                {{ if .Error }}
+                    <div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ .Error }}</div>
+                {{ else if .Success }}
+                    <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ .Success }}</div>
+                {{ end }}
+            </div>
+            <!-- Fin gestion messages -->
+        
+            <form method="post" name="ajouterCompetence" enctype="multipart/form-data" class="ajouterEleve_big">
+                <center>
+                    <label for="categorie" class="center">Catégorie de compétence</label>
+                    {{ $categorieId := .Competence.Categorie.Id }}
+                    {{ $subCategorieId := .Competence.SubCategorie.Id }}
+                    
+                    <select id="categorie" name="categorie" onchange="GetSubCategories()">
+                        <option value="" disabled selected></option>
+                        {{ range .Categories }}
+                            <option value="{{ .Id }}" {{ if eq .Id $categorieId }} selected {{ end }}>{{ .Name }}</option>
+                        {{ end }}
+                    </select><br>
+
+                    <select id="subCategorie" name="subCategorie">
+                        <option value="" disabled selected></option>
+                        {{ range .Categories }}
+                            {{ if eq .Id $categorieId }}
+                                {{ range .SubCategories }}
+                                    <option value="{{ .Id }}" {{if eq .Id $subCategorieId }} selected {{ end }}>{{ .Name }}</option>
+                                {{ end }}
+                            {{ end }}
+                        {{ end }}
+                    </select>
+
+                    <label for="valeur" class="center">Nom de la compétence</label><br>
+                    <input type="text" id="valeur" name="name" placeholder="Nom de la compétence" value="{{ .Competence.Name }}"></textarea>
+                    <br><br>
+
+                    <label for="image" class="center">Image à associer à la compétence</label>
+                    <input type="file" id="image" name="image" accept="image/png, image/jpg, image/jpeg">
+            
+                    <br><br>
+                    <button type="submit" name="submit">Créer</button>
+                </center>
+            </form>
+        </div>
+    </body>
+</html>
+
+<script>
+    function RemoveCookie() {
+        document.cookie = "competenceId=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
+    }
+
+    async function GetSubCategories() {
+        const select = document.getElementById("subCategorie")
+        select.innerHTML = '<option value="" disabled selected></option>'
+
+        const selectCateg = document.getElementById("categorie")
+        const choiceCateg = selectCateg.selectedIndex
+        const valueSelectedCateg = selectCateg.options[choiceCateg].value
+
+        if (valueSelectedCateg === "") {
+            return
+        }
+
+        const datas = await fetch(`http://${location.host}/getSubCategories`, { method: "POST", body: JSON.stringify(valueSelectedCateg) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(data => {
+            const option = document.createElement('option')
+            option.value = data.Id
+            option.innerHTML = data.Name
+
+            select.appendChild(option)
+        });
+    }
+</script>

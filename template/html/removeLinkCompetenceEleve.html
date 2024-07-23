@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve">Attribution des Compétences</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence">Supprimer les compétences d'un élève</a></li>
+        </ul>
+
+        <div class="form-message" id="form-message"></div>
+
+        <form class="ajouterEleve_big">
+            <center>
+                <label for="annee">Année scolaire:</label><br>
+                <select id="annee" name="annee" onchange="getStudents()">
+                    <option value="" disabled selected></option>
+
+                    {{ range .YearList }}
+                        <option value={{.}}>{{.}}</option>
+                    {{ end }}
+                </select><br><br>
+
+                <label for="selectStudent">Élève:</label><br>
+                <select id="selectStudent">
+                    <option value="" disabled selected></option>
+                </select><br><br>
+
+                <label for="categorie">Catégorie de compétence:</label><br>
+                <select id="categorie" onchange="getCompetence()">
+                    <option value="" disabled selected></option>
+
+                    {{ range .Categories }}
+                        <option value={{.Id}}>{{.Name}}</option>
+                    {{ end }}
+                </select><br><br>
+
+                <label for="competence">Compétence valider à supprimer:</label><br>
+                <div id="competence"></div>
+            </center>
+        </form>
+    </body>
+</html>
+
+<script>
+    async function getStudents() {
+        const select = document.getElementById('selectStudent')
+        select.innerHTML = '<option value="" disabled selected></option>'
+
+        const selectYear = document.getElementById("annee")
+        const choiceyear = selectYear.selectedIndex
+ 
+        const valueSelected = selectYear.options[choiceyear].value
+
+        const datas = await fetch(`http://${location.host}/getStudents`, { method: "POST", body: JSON.stringify({ year: valueSelected }) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(data => {
+            const option = document.createElement('option')
+            option.id = data.Id
+            option.innerHTML = data.Name
+
+            select.appendChild(option)
+        });
+    }
+
+    async function getCompetence() {
+        const div = document.getElementById('competence')
+        div.innerHTML = ''
+
+        const selectYear = document.getElementById("annee")
+        const choiceyear = selectYear.selectedIndex
+        const valueSelectedYear = selectYear.options[choiceyear].value
+
+        const selectStudent = document.getElementById("selectStudent")
+        const choiceStudent = selectStudent.selectedIndex
+        const valueSelectedStudent = selectStudent.options[choiceStudent].value
+
+        const selectCateg = document.getElementById("categorie")
+        const choiceCateg = selectCateg.selectedIndex
+        const valueSelectedCateg = selectCateg.options[choiceCateg].value
+
+        if (valueSelectedYear === "" || valueSelectedStudent === "" || valueSelectedCateg === "") {
+            return
+        }
+
+        const datas = await fetch(`http://${location.host}/getStudents`, { method: "POST", body: JSON.stringify({ year: valueSelectedYear }) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        for (let i = 0; i < datas[choiceStudent - 1].Competences.length; i++) {
+            if (datas[choiceStudent - 1].Competences[i].Categorie.Id !== valueSelectedCateg) {
+                console.log("skip");
+                continue
+            }
+
+            console.log(datas[choiceStudent - 1].Competences[i]);
+
+            const button = document.createElement('button')
+            button.id = datas[choiceStudent - 1].Competences[i].Id
+            button.innerHTML = datas[choiceStudent - 1].Competences[i].Name
+
+            div.appendChild(button)
+
+            button.addEventListener('click', async () => {
+                const res = await fetch(`http://${location.host}/removeLink`, { method: "POST", body: JSON.stringify({ studentId: selectStudent.options[choiceStudent].id, competenceId: datas[choiceStudent - 1].Competences[i].Id }) }).then(data => data.json())
+
+                if (res === true) {
+                    location.reload()
+                } else {
+                    document.getElementById('form-message').innerHTML = `<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> Impossible de supprimer la compétence </div>`
+                }
+            })
+        }
+    }
+</script>

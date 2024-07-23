@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve">Attribution des Compétences</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence">Supprimer les compétences d'un élève</a></li>
+        </ul>
+        
+        <label for="categories">Catégories:</label>
+        <select id="categorie" name="categorie" onchange="getCompetence()">
+            <option value="" disabled selected></option>
+
+            {{ range .Categories }}
+                <option value="{{.Id}}">{{.Name}}</option>
+            {{ end }}
+        </select>
+        <br><br>
+
+        <label for="nom_client">Année scolaire:</label>
+        <select id="annee" name="annee" onchange="getStudents()">
+            <option value="" disabled selected></option>
+
+            {{ range .YearList }}
+                <option value={{.}}>{{.}}</option>
+            {{ end }}
+        </select>
+
+        <div class="container">
+            <table class="styled-table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Categorie</th>
+                    <th>Sous-Catégorie</th>
+                    <th>Image</th>
+                    <th>Élèves</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+        
+    </body>
+</html>
+
+<script>
+    async function getCompetence() {
+        const tbody = document.getElementById("tbody")
+        tbody.innerHTML = ''
+
+        select = document.getElementById("categorie")
+        choice = select.selectedIndex
+ 
+        valueSelected = select.options[choice].value
+
+        const datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify(valueSelected) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(async data => {
+            const tr = document.createElement('tr')
+            tr.innerHTML = `
+                <td>${data.Name}</td>
+                <td>${data.Categorie.Name}</td>
+                <td>${data.SubCategorie.Name}</td>
+                <td><img src="${data.ImagePath}" style="max-width: 200px;"></td>
+                <td></td>
+                <td><input type="button" value="Modifier la compétence" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
+                <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
+            `
+
+            tbody.appendChild(tr)
+        });
+    }
+
+    async function getStudents() {
+        const tbody = document.getElementById("tbody")
+        tbody.innerHTML = ''
+
+        const selectCateg = document.getElementById("categorie")
+        const choiceCateg = selectCateg.selectedIndex
+        const valueSelectedCateg = selectCateg.options[choiceCateg].value
+
+        const selectYear = document.getElementById("annee")
+        const choiceYear = selectYear.selectedIndex
+        const valueSelectedYear = selectYear.options[choiceYear].value
+
+        if (valueSelectedCateg === "" || valueSelectedYear === "") {
+            return
+        }
+
+        const datas = await fetch(`http://${location.host}/getCompetencesWithStudents`, { method: "POST", body: JSON.stringify([valueSelectedCateg, valueSelectedYear]) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(async data => {
+            var studentsFormated = ""
+
+            data.Students.forEach(student => {
+                studentsFormated += `${student.Name}&emsp;${student.Class} <br>`
+            })
+
+            const tr = document.createElement('tr')
+            tr.innerHTML = `
+                <td>${data.Name}</td>
+                <td>${data.Categorie.Name}</td>
+                <td><img src="${data.ImagePath}" style="max-width: 200px;"></td>
+                <td>${studentsFormated}</td>
+                <td><input type="button" value="Modifier l'élève" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
+                <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
+            `
+
+            tbody.appendChild(tr)
+        });
+        console.log(datas);
+    }
+
+    function Modify(e) {
+        document.cookie = `competenceId=${e.id}`
+        location.href = "/saisir/modifyCompetence"
+    }
+
+    function Remove(e) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/deleteCompetence', false);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(e.id));
+
+        location.reload()
+    }
+</script>

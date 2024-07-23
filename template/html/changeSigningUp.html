@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve">Attribution des Compétences</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence">Supprimer les compétences d'un élève</a></li>
+        </ul>
+
+        <div style="display: flex;">
+            <form method="post" name="ajouterEnseignant" enctype="multipart/form-data" class="ajouterEleve">
+                <center>                    
+                    <br><label for="image" class="center">Nouvelle signature :</label>
+                    <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png">
+                    
+                    <br><br><button type="submit" name="submit">Ajouter</button>
+                </center>
+            </form>
+            <br>
+
+            {{ if .ImagePath }}
+                <div>
+                    <p>Signature Actuelle:</p>
+                    <img src="{{ .ImagePath }}" style="width: 150px;">
+                </div>
+            {{ end }}
+        </div>
+    </body>
+</html>

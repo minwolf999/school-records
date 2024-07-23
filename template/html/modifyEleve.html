@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale" onclick="RemoveCookie()">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence" onclick="RemoveCookie()">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence" onclick="RemoveCookie()">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve" onclick="RemoveCookie()">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve" onclick="RemoveCookie()">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve" onclick="RemoveCookie()">Modifier un élève</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher" onclick="RemoveCookie()">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence" onclick="RemoveCookie()">Supprimer les compétences d'un élève</a></li>
+        </ul>
+
+        <div class="form-message">
+            {{ if .Error }}
+                <div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Error}} </div>
+            {{ else if .Success }}
+                <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Success}} </div>
+            {{ end }}
+        </div>
+        
+        <form method="post" class="ajouterEleve">
+            <center>
+                {{$studentClass := .Student.Class}}
+                <label for="classe_eleve" class="center">Classe de l'élève:</label>
+                <select id="classe" name="class">
+
+                    {{ range .Class }}
+                        {{if eq . "Ps"}}
+                            <option value="Ps" name="Ps" {{ if eq $studentClass "Ps" }} selected {{ end }} >Petite section</option>
+                        {{else if eq . "Ms"}}
+                            <option value="Ms" name="Ms" {{ if eq $studentClass "Ms" }} selected {{ end }} >Moyenne section</option>
+                        {{else if eq . "Gs"}}
+                            <option value="Gs" name="Gs" {{ if eq $studentClass "Gs" }} selected {{ end }} >Grande section</option>
+                        {{ end }}
+                    {{ end }}
+                    
+                    
+                </select><br>
+    
+                <label for="nom_eleve" class="center">Nom de l'élève:</label>
+                <input id="nom_eleve" type="text" name="name" placeholder="Nom de l'élève" value="{{.Student.Name}}"><br>
+                <label for="annee_scolaire" class="center">Année Scolaire:</label>
+                <input id="annee_scolaire" type="text" name="year" placeholder="Année scolaire" value="{{.Student.Year}}"><br>
+    
+                <input type="submit" value="Créer" name="submit"><br>
+            </center>
+        </form>
+    </body>
+</html>
+
+<script>
+    function RemoveCookie() {
+        document.cookie = "studentId=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
+    }
+</script>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+        </ul>
+
+        <div class="form-message" id="form-message"></div>
+
+        <div class="ajouterEleve_big">
+            <center>
+                <label for="annee">Année scolaire:</label><br>
+                <select id="annee" name="annee" onchange="getStudents()">
+                    <option value="" disabled selected></option>
+
+                    {{ range . }}
+                        <option value={{.}}>{{.}}</option>
+                    {{ end }}
+                </select><br><br>
+
+                <div id="students"></div>
+            </center>
+        </div>
+    </body>
+</html>
+
+<script>
+    async function getStudents() {
+        const div = document.getElementById('students')
+        div.innerHTML = '<option value="" disabled selected></option>'
+
+        const selectYear = document.getElementById("annee")
+        const choiceyear = selectYear.selectedIndex
+ 
+        const valueSelected = selectYear.options[choiceyear].value
+
+        const datas = await fetch(`http://${location.host}/getStudents`, { method: "POST", body: JSON.stringify({ year: valueSelected }) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(data => {
+            const button = document.createElement('button')
+            button.id = data.Id
+            button.innerHTML = data.Name
+
+            div.appendChild(button)
+
+            button.addEventListener('click', () => {
+                var date = new Date();
+                date.setTime(date.getTime()+(5*1000));
+
+                document.cookie = `studentId=${data.Id}; expires=${date.toGMTString()}`
+                window.open(`http://${location.host}/createPDF`)
+            })
+        });
+    }
+</script>
+

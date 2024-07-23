@@ -1,19 +1,57 @@
-# school-records
+# School File For Kindergarten
 
-School-Records is a project aims to help nursery school teachers to prepare their school records digitally.
-This program work with a wamp server and 2 database (the .sql for create the two database are in the folder bdd and identification).
-The two database take the name of the .sql file.
+School File For Kindergarten is a golang application. These program has been created in 2 language (English for the back-end and French for the front-end).
 
-for access easily to the site you can use the file `raccourci.html` (he can be moved where you want).
+## Table of Contents
 
-When you save the database the .sql of the 2 database are saved in the folder `saisir/upload/`
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contribution](#contribution)
 
 ## Prerequisites
 
-- [Wamp Server](https://sourceforge.net/projects/wampserver/)
-- two mysql databases configured
+Before you begin, make sure you have the following installed on your machine:
 
-## Utilisation
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-To access to the site use this url:
-`http://localhost/sdz/demo/identification/login.php`
+Or
+
+- [Golang](https://go.dev/dl/)
+
+## Installation
+
+1. Clone the repository:
+
+    ```
+    git clone https://github.com/minwolf999/school-records.git
+    cd school-records
+    ```
+
+## Usage
+
+To start or stop the application, use the following Docker commands:
+
+- To start the application with the docker:
+
+    ```bash
+    bash script.sh
+    ```
+
+- To start the application with golang:
+
+    ```golang
+    go run .
+    ```
+
+- To stop the application:
+
+    ```
+    CTRL + c
+    exit
+    ```
+
+## Contribution
+
+- [Antoine Marvin](https://github.com/minwolf999/)

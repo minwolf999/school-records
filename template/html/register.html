@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/template/css/log.css" />
+    </head>
+    <body>
+        <img class="background" src="/template/images/fond.png" />
+
+        <form class="box" action="" method="post">
+            <h1 class="box-title">S'inscrire</h1>
+
+            <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required />
+            <input type="password" class="box-input" name="password" placeholder="Mot de passe" required />
+            <input type="password" class="box-input" name="confirm" placeholder="Confirmer le mot de passe" required />
+            <select id="classe" name="class" multiple>
+                <option value="Ps" name="Ps">Petite section</option>
+                <option value="Ms" name="Ms">Moyenne section</option>
+                <option value="Gs" name="Gs">Grande section</option>
+            </select><br>
+
+            <input type="submit" name="submit" value="S'inscrire" class="box-button" />
+
+            <p class="box-register">Déjà inscrit? <a href="/login">Connectez-vous ici</a></p>
+            
+            {{ if . }}
+                <p class="errorMessage">{{.}}</p>
+            {{ end }}
+        </form>
+    </body>
+</html>

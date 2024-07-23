@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
+        <link rel="stylesheet" type="text/css" href="/template/css/main.css">
+    </head>
+
+    <body>
+        <img src="/template/images/fond2.png" class="background">
+
+        <h1>Menu</h1>
+
+        <ul class="menu-li">
+            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
+
+            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence">Liste des compétences</a></li>
+            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence">Ajouter une compétence</a></li>
+
+            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve">Liste d'élèves</a></li>
+            <li><a class="orange" href="/saisir/addEleve" id="addEleve">Ajouter un élève</a></li>
+            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve">Attribution des Compétences</a></li>
+
+            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher">Modifier la signature</a></li>
+            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence">Supprimer les compétences d'un élève</a></li>
+        </ul>
+
+        {{ if .Error }}
+            <div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ .Error }}</div>
+        {{ else if .Success }}
+            <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ .Success }}</div>
+        {{ end }}
+
+        <form method="post" class="ajouterEleve_big">
+            <label for="nom_client">Année scolaire:</label><br>
+            <select id="annee" name="annee" onchange="getStudents()">
+                <option value="" disabled selected></option>
+
+                {{ range .YearList }}
+                    <option value={{.}}>{{.}}</option>
+                {{ end }}
+            </select><br><br>
+
+            <label for="students">Élèves:</label><br>
+            <select id="students" name="students" multiple>
+                <option value="" disabled selected></option>
+            </select><br><br>
+
+            <label for="categories">Catégorie de compétence:</label><br>
+            <select id="categories" name="categories" onchange="getCompetences()">
+                <option value="" disabled selected></option>
+
+                {{ range .Categories }}
+                    <option value="{{ .Id }}">{{ .Name }}</option>
+                {{ end }}
+            </select><br><br>
+
+            <label for="competences">Compétence</label><br>
+            <select id="competences" name="competences">
+                <option value="" disabled selected></option>
+            </select><br><br>
+
+            <input type="submit" value="valider">
+        </form>
+    </body>
+</html>
+
+<script>
+    const getStudents = async () => {
+        const select = document.getElementById('students')
+        select.innerHTML = '<option value="" disabled selected></option>'
+
+        const selected = document.getElementById("annee")
+        const choice = selected.selectedIndex
+ 
+        const valueSelected = selected.options[choice].value
+
+        const datas = await fetch(`http://${location.host}/getStudents`, { method: "POST", body: JSON.stringify({ year: valueSelected }) }).then(data => data.json())
+        if (datas.length === 0) {
+            return
+        }
+
+        datas.forEach(data => {
+            const option = document.createElement('option')
+            option.value = data.Id
+            option.innerHTML = data.Name
+
+            select.appendChild(option)
+        });
+    }
+
+    const getCompetences = async () => {
+        const selectCompetence = document.getElementById("competences")
+        selectCompetence.innerHTML = '<option value="" disabled selected></option>'
+
+        const selected = document.getElementById("categories")
+        const choice = selected.selectedIndex
+        const valueSelected = selected.options[choice].value
+
+        const datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify(valueSelected) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        datas.forEach(data => {
+            const option = document.createElement('option')
+            option.value = data.Id
+            option.innerHTML = data.Name
+
+            selectCompetence.appendChild(option)
+        });
+    }
+</script>
