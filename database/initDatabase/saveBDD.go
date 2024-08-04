@@ -2,31 +2,32 @@ package initdatabase
 
 import (
 	"fmt"
-	"os/exec"
-	"runtime"
-	"strings"
+	"io"
+	"os"
 )
 
 // These function create a save of the BDD in the folder backup
 func SaveBDD() {
-	command := "cp"
-	dbpath := "./database/database.sqlite3"
-	bakpath := "./database/backup/backup.sqlite3"
+	src := "./database/database.sqlite3"
+	dst := "./database/backup/backup.sqlite3"
 
-	// If the OS is on windows we modify the bash command to make it work for Windows
-	os := runtime.GOOS
-	if os == "windows" {
-		command = "copy"
-		dbpath = strings.ReplaceAll(dbpath, "/", "\\")
-		bakpath = strings.ReplaceAll(bakpath, "/", "\\")
-	}
-
-	// Execute the command
-	cmd := exec.Command(command, dbpath, bakpath)
-	out, err := cmd.CombinedOutput()
+	sourceFile, err := os.Open(src)
 	if err != nil {
-		fmt.Println(fmt.Errorf("dbBackup failed : %s : %v", string(out), err))
+		fmt.Println(1, err)
 		return
+	}
+	defer sourceFile.Close()
+
+	destinationFile, err := os.Create(dst)
+	if err != nil {
+		fmt.Println(2, err)
+		return
+	}
+	defer destinationFile.Close()
+
+	_, err = io.Copy(destinationFile, sourceFile)
+	if err != nil {
+		fmt.Println(3, err)
 	}
 
 	fmt.Println("Backup success")
