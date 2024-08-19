@@ -194,21 +194,9 @@ func ModifyCompetence(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Execute the template with a success message
-	competences, err = controller.SelectCompetences("competences", []string{"id", "teacherId"}, competenceId, teacher.Id)
-	if err != nil {
-		// Write someone comming to the modifyCompetence route in the log file
-		file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		file.WriteString(fmt.Sprintf("%s [%s] %s - /saisir/modifyCompetence route - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, id, err))
-		file.Close()
-		return
-	}
+	file, _ = os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	file.WriteString(fmt.Sprintf("%s [%s] %s - / route - modification success\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method))
+	file.Close()
 
-	err = structure.Tpl.ExecuteTemplate(w, "modifyCompetence.html", structure.Result{Categories: categories, Competence: competences[0], Success: fmt.Sprintf("La compétence `%s` a été mis à jour avec succès!", name)})
-	if err != nil {
-		// Write someone comming to the modifyCompetence route in the log file
-		file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		file.WriteString(fmt.Sprintf("%s [%s] %s - /saisir/modifyCompetence route - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, id, err))
-		file.Close()
-	}
+	http.Redirect(w, r, "/saisir/listCompetence", http.StatusSeeOther)
 }

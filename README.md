@@ -13,10 +13,18 @@ School File For Kindergarten is a golang application. These program has been cre
 
 Before you begin, make sure you have the following installed on your machine:
 
+- [GCC compilator](https://winlibs.com)
+
+AND
+
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 Or
+
+- [GCC compilator](https://winlibs.com)
+
+AND
 
 - [Golang](https://go.dev/dl/)
 

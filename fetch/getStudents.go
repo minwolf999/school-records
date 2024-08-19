@@ -3,6 +3,7 @@ package fetch
 import (
 	"dossier_scolaire/database/controller"
 	"dossier_scolaire/structure"
+	"dossier_scolaire/utility"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -79,8 +80,8 @@ func GetStudents(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		for y := range students[i].Competences {
-			tmp, err := controller.SelectCompetences("competences", []string{"id"}, students[i].Competences[y].Id)
+		for y := range students {
+			tmp, err := controller.SelectStudents("students", []string{"id"}, students[y].Id)
 			if err != nil {
 				// Write someone comming to the getStudents route in the log file
 				file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
@@ -89,9 +90,11 @@ func GetStudents(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			students[i].Competences[y] = tmp[0]
+			students[y] = tmp[0]
 		}
 	}
+
+	students = utility.FilterByClassAndName(students)
 
 	// Send as a JSON to the user
 	w.Header().Set("Content-Type", "application/json")

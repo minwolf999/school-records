@@ -27,30 +27,14 @@ func init() {
 		file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 		file.WriteString(fmt.Sprintf("[%s] Closing Server", time.Now().Format("2006-01-02 15:04:05")))
 		file.Close()
-		
+
 		fmt.Println()
 		initdatabase.SaveBDD()
 		os.Exit(0)
 	}()
 
-	// If there is an argument and he is "reset" we remove and remake the bdd
-	if len(os.Args) == 2 && os.Args[1] == "reset" {
-		os.Remove("./database/database.sqlite3")
-		os.RemoveAll("./template/upload/")
-		os.RemoveAll("./template/signinUp")
-		os.RemoveAll("./template/log/")
-		os.Mkdir("template/upload/", os.ModePerm)
-		os.Mkdir("template/signinUp/", os.ModePerm)
-		os.Mkdir("template/log/", os.ModePerm)
-
-		err := initdatabase.CreateDatabase()
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
-
 	// The setInterval function is called asynchronally and save the BDD each minute
-	go utility.SetInterval(1*time.Minute, initdatabase.SaveBDD)
+	go utility.SetInterval(24*time.Hour, initdatabase.SaveBDD)
 
 	// Set in the global variable the port used by the application and the local ipv4 address we need to used for access to the web site
 	structure.App = utility.NewApplication("8080")
@@ -59,7 +43,6 @@ func init() {
 	structure.Tpl = template.Must(template.New("").ParseGlob("template/html/*.html"))
 	fs := structure.JustFilesFilesystem{Fs: http.Dir("template")}
 
-	// fs := http.FileServer(http.Dir("template"))
 	http.Handle("/template/", http.StripPrefix("/template", http.FileServer(fs)))
 }
 
@@ -69,6 +52,9 @@ func main() {
 
 	// Set all the accessible routes for the site
 	routes.Routes()
+
+	// Open in the default browser when the server is starting
+	utility.Open("http://" + structure.App.Ip + ":" + structure.App.Port)
 
 	// Open the server
 	if err := http.ListenAndServe(":"+structure.App.Port, nil); err != nil {

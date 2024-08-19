@@ -42,10 +42,10 @@ func Update(tab string, toUpdate map[string]string, rows []string, datas ...stri
 	for i, v := range toUpdate {
 		count++
 
-		modify += fmt.Sprintf("%s='%s' ", i, v)
+		modify += fmt.Sprintf("%s=\"%s\"", i, v)
 
 		if count < len(toUpdate) {
-			modify += ","
+			modify += ", "
 		}
 	}
 

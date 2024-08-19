@@ -53,7 +53,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		file.WriteString(fmt.Sprintf("%s [%s] %s - /login route - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, err))
 		file.Close()
 
-		structure.Tpl.ExecuteTemplate(w, "login.html", err.Error())
+		structure.Tpl.ExecuteTemplate(w, "login.html", "Nom d'utilisateur ou mot de passe incorrect !")
 		return
 	}
 

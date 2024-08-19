@@ -3,6 +3,7 @@ package fetch
 import (
 	"dossier_scolaire/database/controller"
 	"dossier_scolaire/structure"
+	"dossier_scolaire/utility"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -78,7 +79,7 @@ func GetStudentsByCompetence(w http.ResponseWriter, r *http.Request) {
 			file.Close()
 			return
 		}
-		
+
 		for y := range competences[i].Students {
 			tmp, err := controller.SelectStudents("students", []string{"id", "year"}, competences[i].Students[y].Id, datas[1])
 			if err != nil {
@@ -92,6 +93,8 @@ func GetStudentsByCompetence(w http.ResponseWriter, r *http.Request) {
 			competences[i].Students[y] = tmp[0]
 		}
 	}
+
+	competences = utility.FilterCompetencesByCategorieAndName(competences)
 
 	// Send as a JSON to the user
 	w.Header().Set("Content-Type", "application/json")

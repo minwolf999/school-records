@@ -32,35 +32,45 @@
         {{ end }}
 
         <form method="post" class="ajouterEleve_big">
-            <label for="nom_client">Année scolaire:</label><br>
-            <select id="annee" name="annee" onchange="getStudents()">
-                <option value="" disabled selected></option>
-
-                {{ range .YearList }}
-                    <option value={{.}}>{{.}}</option>
-                {{ end }}
-            </select><br><br>
-
-            <label for="students">Élèves:</label><br>
-            <select id="students" name="students" multiple>
-                <option value="" disabled selected></option>
-            </select><br><br>
-
-            <label for="categories">Catégorie de compétence:</label><br>
-            <select id="categories" name="categories" onchange="getCompetences()">
-                <option value="" disabled selected></option>
-
-                {{ range .Categories }}
-                    <option value="{{ .Id }}">{{ .Name }}</option>
-                {{ end }}
-            </select><br><br>
-
-            <label for="competences">Compétence</label><br>
-            <select id="competences" name="competences">
-                <option value="" disabled selected></option>
-            </select><br><br>
-
-            <input type="submit" value="valider">
+            <div class="left">
+                <label for="nom_client">Année scolaire:</label><br>
+                <select id="annee" name="annee" onchange="getStudents()">
+                    <option value="" disabled selected></option>
+    
+                    {{ range .YearList }}
+                        <option value={{.}}>{{.}}</option>
+                    {{ end }}
+                </select>
+            </div>
+            <div class="right">
+                <label for="students">Élèves:</label><br>
+                <select id="students" name="students" multiple>
+                    <option value="" disabled selected></option>
+                </select>
+            </div>
+            
+            <div class="lower2">
+                <label for="categories">Catégorie de compétence:</label><br>
+                <select id="categories" name="categories" onchange="GetSubCategories()">
+                    <option value="" disabled selected></option>
+    
+                    {{ range .Categories }}
+                        <option value="{{ .Id }}">{{ .Name }}</option>
+                    {{ end }}
+                </select><br><br>
+    
+                <label for="subCategorie">Sous Catégorie</label><br>
+                <select id="subCategorie" name="subCategorie" onchange="getCompetences()">
+                    <option value="" disabled selected></option>
+                </select>
+    
+                <label for="competences">Compétence</label><br>
+                <select id="competences" name="competences">
+                    <option value="" disabled selected></option>
+                </select><br><br>
+    
+                <input type="submit" value="valider">
+            </div>
         </form>
     </body>
 </html>
@@ -89,18 +99,64 @@
         });
     }
 
+    async function GetSubCategories() {
+        const select = document.getElementById("subCategorie")
+        select.innerHTML = '<option value="" disabled selected></option>'
+
+        const selectCateg = document.getElementById("categories")
+        const choiceCateg = selectCateg.selectedIndex
+        const valueSelectedCateg = selectCateg.options[choiceCateg].value
+
+        if (valueSelectedCateg === "") {
+            return
+        }
+
+        const datas = await fetch(`http://${location.host}/getSubCategories`, { method: "POST", body: JSON.stringify(valueSelectedCateg) }).then(data => data.json())
+        if (!datas) {
+            return
+        }
+
+        if (datas.length === 0) {
+            getCompetences()
+            return
+        }
+
+        datas.forEach(data => {
+            const option = document.createElement('option')
+            option.value = data.Id
+            option.innerHTML = data.Name
+
+            select.appendChild(option)
+        });
+    }
+
     const getCompetences = async () => {
         const selectCompetence = document.getElementById("competences")
         selectCompetence.innerHTML = '<option value="" disabled selected></option>'
 
-        const selected = document.getElementById("categories")
-        const choice = selected.selectedIndex
-        const valueSelected = selected.options[choice].value
+        const selectedSubCategories = document.getElementById("subCategorie")
+        const choiceSubCategories = selectedSubCategories.selectedIndex
+        const SubCategoriesValueSelected = selectedSubCategories.options[choiceSubCategories].value
 
-        const datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify(valueSelected) }).then(data => data.json())
-        if (!datas) {
-            return
+        var datas = [];
+
+        if (SubCategoriesValueSelected !== "") {
+            datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify({ subcategories : SubCategoriesValueSelected }) }).then(data => data.json())
+            if (!datas) {
+                return
+            }
+        } else {
+            const selectedCategories = document.getElementById("categories")
+            const choiceCategories = selectedCategories.selectedIndex
+            const CategoriesValueSelected = selectedCategories.options[choiceCategories].value
+
+            datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify({ categories : CategoriesValueSelected }) }).then(data => data.json())
+            if (!datas) {
+                return
+            } 
         }
+
+
 
         datas.forEach(data => {
             const option = document.createElement('option')

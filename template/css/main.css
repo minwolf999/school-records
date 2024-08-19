@@ -143,22 +143,22 @@ form select, form input[type="text"], form button, form label {
 }
 
 form.ajouterEleve {
-    border: 2px solid #000000;
-    background-color: #f3f3f3;
+    margin: auto;
     width:15%;
 
-    margin-right: 25px;
+    /* margin-right: 25px; */
 }
 
 label.center
 {
-    /*width: 50%;*/
     display:inline-block;
 }
+
 .ajouterEleve_big {
-    border: 2px solid #000000;
-    background-color: #f3f3f3;
     width:25%;
+    
+    margin: auto;
+    position: relative;
 
     text-align: center;
     padding: 10px 0 10px 0;
@@ -196,4 +196,28 @@ ul li a.gris:hover {background: #ffffff;}
 
 .competence {
     width:15%
+}
+
+.ajouterEleve_big .left {
+    position: absolute;
+    left: 10%;
+}
+
+.ajouterEleve_big .right {
+    position: absolute;
+    right: 10%;
+}
+
+.ajouterEleve_big .lower {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ajouterEleve_big .lower2 {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
 }

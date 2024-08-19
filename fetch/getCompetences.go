@@ -43,7 +43,7 @@ func GetCompetences(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var datas string
+	var datas map[string]string
 	err = json.Unmarshal(body, &datas)
 	if err != nil {
 		// Write someone comming to the getCompetence route in the log file
@@ -58,14 +58,30 @@ func GetCompetences(w http.ResponseWriter, r *http.Request) {
 	file.WriteString(fmt.Sprintf("%s [%s] %s - GetCompetence fetch - %s - datas: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, teacher.Id, datas))
 	file.Close()
 
+	var competences []structure.Competence
 	// Get the competences who his link to this categorie id
-	competences, err := controller.SelectCompetences("competences", []string{"categorieId"}, datas)
-	if err != nil {
-		// Write someone comming to the getCompetence route in the log file
-		file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		file.WriteString(fmt.Sprintf("%s [%s] %s - GetCompetence fetch - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, teacher.Id, err))
-		file.Close()
-		return
+	_, isOk := datas["categories"]
+	if isOk {
+		competences, err = controller.SelectCompetences("competences", []string{"categorieId", "teacherId"}, datas["categories"], teacher.Id)
+		if err != nil {
+			// Write someone comming to the getCompetence route in the log file
+			file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+			file.WriteString(fmt.Sprintf("%s [%s] %s - GetCompetence fetch - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, teacher.Id, err))
+			file.Close()
+			return
+		}
+	}
+
+	_, isOk = datas["subcategories"]
+	if isOk {
+		competences, err = controller.SelectCompetences("competences", []string{"subCategorieId"}, datas["subcategories"])
+		if err != nil {
+			// Write someone comming to the getCompetence route in the log file
+			file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+			file.WriteString(fmt.Sprintf("%s [%s] %s - GetCompetence fetch - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, teacher.Id, err))
+			file.Close()
+			return
+		}
 	}
 
 	// Send as a JSON to the user

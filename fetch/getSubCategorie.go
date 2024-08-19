@@ -3,6 +3,7 @@ package fetch
 import (
 	"dossier_scolaire/database/controller"
 	"dossier_scolaire/structure"
+	"dossier_scolaire/utility"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -67,6 +68,8 @@ func GetSubCategorie(w http.ResponseWriter, r *http.Request) {
 		file.Close()
 		return
 	}
+
+	subCategories = utility.FilterSubCategoriesByName(subCategories)
 
 	// Send as a JSON to the user
 	w.Header().Set("Content-Type", "application/json")

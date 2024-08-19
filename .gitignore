@@ -1,0 +1,4 @@
+database/database.sqlite3
+database/backup/backup.sqlite3
+log/*
+template/upload/*

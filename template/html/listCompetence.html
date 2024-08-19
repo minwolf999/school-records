@@ -53,6 +53,7 @@
                     <th>Sous-Catégorie</th>
                     <th>Image</th>
                     <th>Élèves</th>
+                    <th>Classes</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -77,7 +78,7 @@
  
         valueSelected = select.options[choice].value
 
-        const datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify(valueSelected) }).then(data => data.json())
+        const datas = await fetch(`http://${location.host}/getCompetences`, { method: "POST", body: JSON.stringify({ categories: valueSelected }) }).then(data => data.json())
         if (!datas) {
             return
         }
@@ -89,6 +90,7 @@
                 <td>${data.Categorie.Name}</td>
                 <td>${data.SubCategorie.Name}</td>
                 <td><img src="${data.ImagePath}" style="max-width: 200px;"></td>
+                <td></td>
                 <td></td>
                 <td><input type="button" value="Modifier la compétence" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
                 <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
@@ -121,17 +123,21 @@
 
         datas.forEach(async data => {
             var studentsFormated = ""
+            var classFormated = ""
 
             data.Students.forEach(student => {
-                studentsFormated += `${student.Name}&emsp;${student.Class} <br>`
+                studentsFormated += `${student.Name}<br>`
+                classFormated += `${student.Class}<br>`
             })
 
             const tr = document.createElement('tr')
             tr.innerHTML = `
                 <td>${data.Name}</td>
                 <td>${data.Categorie.Name}</td>
+                <td>${data.SubCategorie.Name}</td>
                 <td><img src="${data.ImagePath}" style="max-width: 200px;"></td>
                 <td>${studentsFormated}</td>
+                <td>${classFormated}</td>
                 <td><input type="button" value="Modifier l'élève" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
                 <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
             `

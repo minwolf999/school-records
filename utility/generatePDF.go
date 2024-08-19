@@ -20,16 +20,13 @@ func GeneratePDF(student structure.Student, teacher structure.Teacher) *gofpdf.F
 	translator := pdf.UnicodeTranslatorFromDescriptor("")
 	width, height := pdf.GetPageSize()
 	pageHeight := 0
-	categorieCount := 0
-	currentI := 0
-	currentPage := 0
 
 	// Set a font and write the name of the student
-	pdf.SetFont("Arial", "B", 16)
+	pdf.SetFont("Arial", "B", 12)
 	pdf.Cell(0, 10, translator(student.Name))
 
 	// Set a font and write the school year
-	pdf.SetFont("Arial", "", 16)
+	pdf.SetFont("Arial", "", 10)
 	pdf.CellFormat(0, 10, translator(fmt.Sprintf("Année scolaire %s", student.Year)), "", 0, "R", false, 0, "")
 
 	// Make a break line
@@ -44,82 +41,71 @@ func GeneratePDF(student structure.Student, teacher structure.Teacher) *gofpdf.F
 	pageHeight += 10
 
 	// Draw a line
-	pdf.SetDrawColor(255/2, 255/2, 255/2)
+	pdf.SetDrawColor(128, 128, 128)
 	pdf.SetLineWidth(0.5)
 	pdf.Line(10, 30, width-10, 30)
+	pdf.Ln(10)
+	pageHeight += 10
 
-	// Write the detail f the competence
-	for i := range student.Competences {
-		// Verify if there is the place to add a new line if not add a new page and reset some variable
-		if height-float64(pageHeight) < 70 {
+	// Write the detail of the competence
+	for i, comp := range student.Competences {
+		// Verify if there is the place to add a new line, if not, add a new page and reset some variables
+		if height-float64(pageHeight) < 50 {
 			pdf.AddPage()
 			pageHeight = 0
-			categorieCount = 0
-			currentI = 0
-			currentPage++
 		}
 
-		// If there is a new Categorie, write the name of the categorie in italic bold
-		if i == 0 || student.Competences[i].Categorie.Name != student.Competences[i-1].Categorie.Name {
-			if i != 0 {
-				categorieCount++
-			}
-
-			pdf.Ln(5)
-			pageHeight += 5
-
-			pdf.SetFont("Arial", "BI", 16)
-			pdf.Cell(40, 10, translator(student.Competences[i].Categorie.Name))
-
-			pdf.Ln(20)
-			pageHeight += 20
+		// If there is a new Category, write the name of the category in italic bold
+		if i == 0 || comp.Categorie.Name != student.Competences[i-1].Categorie.Name {
+			pdf.SetFont("Arial", "BI", 15)
+			pdf.Cell(0, 10, translator(comp.Categorie.Name))
+			pdf.Ln(10)
+			pageHeight += 10
 		}
 
-		// If there is a new sub-Categorie, write the name of the categorie in bold
-		if student.Competences[i].SubCategorie.Name != "" && (i == 0 || student.Competences[i].SubCategorie.Name != student.Competences[i-1].SubCategorie.Name) {
-			if i != 0 {
-				categorieCount++
-			}
-
-			pdf.Ln(5)
-			pageHeight += 5
-
-			pdf.SetFont("Arial", "B", 16)
-			pdf.Cell(40, 10, translator(student.Competences[i].SubCategorie.Name))
-
-			pdf.Ln(20)
+		// If there is a new sub-Category, write the name of the sub-category in bold
+		if comp.SubCategorie.Name != "" && (i == 0 || comp.SubCategorie.Name != student.Competences[i-1].SubCategorie.Name) {
+			pdf.SetFont("Arial", "B", 13)
+			pdf.Cell(0, 10, translator(comp.SubCategorie.Name))
+			pdf.Ln(10)
 			pageHeight += 10
 		}
 
 		// Set the font to normal and write the name of the competence
-		pdf.SetFont("Arial", "", 16)
-		pdf.Cell(40, 10, translator(student.Competences[i].Name))
+		pdf.SetFont("Arial", "", 10)
+		pdf.Cell(0, 10, translator(comp.Name))
+		pageHeight += 10
 
 		// Place the image of the competence
-		if currentPage == 0 {
-			pdf.Image(student.Competences[i].ImagePath[1:], width-65, float64(currentI*27+50+categorieCount*25), 55, 25, false, "", 0, "")
-		} else {
-			pdf.Image(student.Competences[i].ImagePath[1:], width-65, float64(currentI*27+3+categorieCount*25), 55, 25, false, "", 0, "")
+		if comp.ImagePath != "" {
+			pdf.Image(comp.ImagePath[1:], width-30, float64(pageHeight), 20, 16, false, "", 0, "")
+			pageHeight += 16
 		}
-		pdf.Ln(27)
-		pageHeight += 27
 
-		currentI++
+		// Add space between competences
+		pdf.Ln(5)
+		pageHeight += 5
 	}
 
-	// Write a field to the parent Signin up
+	// Draw a line
+	pdf.SetDrawColor(128, 128, 128)
+	pdf.SetLineWidth(0.5)
+	pdf.Line(10, float64(pageHeight), width-10, float64(pageHeight))
+	pdf.Ln(10)
+	pageHeight += 10
+	
+	// Write a field for the parent's signature
 	pdf.Ln(10)
 	pageHeight += 10
 	pdf.Cell(0, 10, translator("Signature des parents"))
 
-	// Write the signin up of the teacher field
+	// Write the teacher's signature field
 	pdf.CellFormat(0, 10, translator("Signature de l'enseignant"), "", 0, "R", false, 0, "")
 	pdf.Ln(10)
 	pageHeight += 10
 
 	if teacher.SigningUpPath != "" {
 		FullDecrypt(teacher)
-
 		pdf.Image(teacher.SigningUpPath[1:], width-55, float64(pageHeight+10), 25, 25, false, "", 0, "")
 
 		go func() {
