@@ -33,6 +33,22 @@ func init() {
 		os.Exit(0)
 	}()
 
+	// If there is an argument and he is "reset" we remove and remake the bdd
+	if len(os.Args) == 2 && os.Args[1] == "-reset" {
+		os.Remove("./database/database.sqlite3")
+		os.RemoveAll("./template/upload/")
+		os.RemoveAll("./template/signinUp")
+		os.RemoveAll("./template/log/")
+		os.Mkdir("template/upload/", os.ModePerm)
+		os.Mkdir("template/signinUp/", os.ModePerm)
+		os.Mkdir("template/log/", os.ModePerm)
+
+		err := initdatabase.CreateDatabase()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 	// The setInterval function is called asynchronally and save the BDD each minute
 	go utility.SetInterval(24*time.Hour, initdatabase.SaveBDD)
 
