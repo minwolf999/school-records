@@ -9,21 +9,27 @@
     <body>
         <img src="/template/images/fond2.png" class="background">
 
-        <h1>Menu</h1>
-
-        <ul class="menu-li">
-            <li><a class="gris" href="/home" id="principale" onclick="RemoveCookie()">Menu principal</a></li>
-
-            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence" onclick="RemoveCookie()">Liste des compétences</a></li>
-            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence" onclick="RemoveCookie()">Ajouter une compétence</a></li>
-
-            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve" onclick="RemoveCookie()">Liste d'élèves</a></li>
-            <li><a class="orange" href="/saisir/addEleve" id="addEleve" onclick="RemoveCookie()">Ajouter un élève</a></li>
-            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve" onclick="RemoveCookie()">Modifier un élève</a></li>
-
-            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher" onclick="RemoveCookie()">Modifier la signature</a></li>
-            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence" onclick="RemoveCookie()">Supprimer les compétences d'un élève</a></li>
-        </ul>
+        <div class="hamburger-icon" id="menu">
+            <label for="openmenu" id="hamburger-label">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>    
+        </div>        
+          
+        <center id="navbar" style="display: none;">
+            <ul class="menu-bar">
+                <a href="/home">Menu principal</a>
+                <a href="/saisir/listCompetence">Liste des compétences</a>
+                <a href="/saisir/addCompetence">Ajouter une compétence</a>
+                <a href="/saisir/listEleve">Liste d'élèves</a>
+                <a href="/saisir/addEleve">Ajouter un élève</a>
+                <a href="/saisir/addLinkCompetenceEleve">Attribution des Compétences</a>
+                <a href="/saisir/changeSigningUp">Modifier la signature</a>
+                <a href="/saisir/removeLinkCompetenceEleve">Supprimer les compétences d'un élève</a>
+            </ul>
+        </center>
 
         <div class="form-message">
             {{ if .Error }}
@@ -64,6 +70,16 @@
 </html>
 
 <script>
+        document.getElementById("menu").addEventListener("click", () => {
+        const navBar = document.getElementById("navbar")
+        
+        if (navBar.style.display === "none") {
+            navBar.style.display = "block"
+        } else {
+            navBar.style.display = "none"
+        }
+    })
+    
     function RemoveCookie() {
         document.cookie = "studentId=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
     }

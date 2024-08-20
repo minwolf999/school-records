@@ -9,21 +9,27 @@
     <body>
         <img src="/template/images/fond2.png" class="background">
 
-        <h1>Menu</h1>
-
-        <ul class="menu-li">
-            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
-
-            <li><a class="jaune" href="/saisir/listCompetence" id="listeCompetence">Liste des compétences</a></li>
-            <li><a class="rose" href="/saisir/addCompetence" id="addCompetence">Ajouter une compétence</a></li>
-
-            <li><a class="turquoise" href="/saisir/listEleve" id="listeEleve">Liste d'élèves</a></li>
-            <li><a class="orange" href="/saisir/addEleve" id="addEleve">Ajouter un élève</a></li>
-            <li><a class="vert" href="/saisir/addLinkCompetenceEleve" id="modifyEleve">Attribution des Compétences</a></li>
-
-            <li><a class="rouge" href="/saisir/changeSigningUp" id="addTeacher">Modifier la signature</a></li>
-            <li><a class="bleu" href="/saisir/removeLinkCompetenceEleve" id="removeCompetence">Supprimer les compétences d'un élève</a></li>
-        </ul>
+        <div class="hamburger-icon" id="menu">
+            <label for="openmenu" id="hamburger-label">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>    
+        </div>        
+          
+        <center id="navbar" style="display: none;">
+            <ul class="menu-bar">
+                <a href="/home">Menu principal</a>
+                <a href="/saisir/listCompetence">Liste des compétences</a>
+                <a href="/saisir/addCompetence">Ajouter une compétence</a>
+                <a href="/saisir/listEleve">Liste d'élèves</a>
+                <a href="/saisir/addEleve">Ajouter un élève</a>
+                <a href="/saisir/addLinkCompetenceEleve">Attribution des Compétences</a>
+                <a id="current">Modifier la signature</a>
+                <a href="/saisir/removeLinkCompetenceEleve">Supprimer les compétences d'un élève</a>
+            </ul>
+        </center>
 
         <div style="display: flex;">
             <form method="post" name="ajouterEnseignant" enctype="multipart/form-data" class="ajouterEleve">
@@ -45,3 +51,15 @@
         </div>
     </body>
 </html>
+
+<script>
+        document.getElementById("menu").addEventListener("click", () => {
+        const navBar = document.getElementById("navbar")
+        
+        if (navBar.style.display === "none") {
+            navBar.style.display = "block"
+        } else {
+            navBar.style.display = "none"
+        }
+    })
+</script>

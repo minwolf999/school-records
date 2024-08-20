@@ -170,30 +170,6 @@ label.center
     margin: 0 auto;
 }
 
-ul li a.bleu {background: #468bfc;}
-ul li a.bleu:hover {background: #ffffff;}
-
-ul li a.rouge {background: #fc464b;}
-ul li a.rouge:hover {background: #ffffff;}
-
-ul li a.vert {background: #12e81b;}
-ul li a.vert:hover {background: #ffffff;}
-
-ul li a.orange {background: #ff9800;}
-ul li a.orange:hover {background: #ffffff;}
-
-ul li a.turquoise {background: #26fef9;}
-ul li a.turquoise:hover {background: #ffffff;}
-
-ul li a.rose {background: #fe48f2;}
-ul li a.rose:hover {background: #ffffff;}
-
-ul li a.jaune {background: #fefb48;}
-ul li a.jaune:hover {background: #ffffff;}
-
-ul li a.gris {background: #dfdddd;}
-ul li a.gris:hover {background: #ffffff;}
-
 .competence {
     width:15%
 }
@@ -220,4 +196,93 @@ ul li a.gris:hover {background: #ffffff;}
     top: 150px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.hamburger-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 1%;
+    z-index: 1;
+  }
+  
+  .hamburger-icon span {
+    height: 5px;
+    width: 40px;
+    background-color: black;
+    display: block;
+    margin: 5px 0px 5px 0px;
+    transition: 0.7s ease-in-out;
+    transform: none;
+  }
+
+.menu-bar {
+    animation: fade_in_show 0.5s;
+
+    position: relative;
+	border-radius: 25px;
+	height: fit-content;
+	display: inline-flex;
+	background-color: rgba(0, 0, 0, 0.4);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	align-items: center;
+
+    flex-direction: column;
+	padding: 10px;
+	margin: 20px 0 0 0;
+}
+
+@keyframes fade_in_show {
+    0% {
+         opacity: 0;
+         transform: scale(0)
+    }
+
+    100% {
+         opacity: 1;
+         transform: scale(1)
+    }
+}
+
+.menu-bar a {
+	list-style: none;
+	color: white;
+	font-family: sans-serif;
+	font-weight: bold;
+	position: relative;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: color 0.2s, transform 0.2s;
+    text-decoration: none;
+
+    padding: 10px 12px;
+	margin: 5px 0;
+	text-align: center;
+	width: 100%;
+}
+
+.menu-bar a::before {
+	content: " ";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	transition: 0.2s;
+	border-radius: 25px;
+}
+
+.menu-bar a:not(#current):hover::before {
+	background: linear-gradient(to bottom, #e8edec, #d2d1d3);
+	box-shadow: 0px 3px 20px 0px black;
+	transform: scale(1.2);
+}
+
+.menu-bar a:not(#current):hover {
+	color: black;
+}
+
+.menu-bar #current {
+    cursor: auto;
 }

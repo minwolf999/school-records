@@ -9,11 +9,20 @@
     <body>
         <img src="/template/images/fond2.png" class="background">
 
-        <h1>Menu</h1>
-
-        <ul class="menu-li">
-            <li><a class="gris" href="/home" id="principale">Menu principal</a></li>
-        </ul>
+        <div class="hamburger-icon" id="menu">
+            <label for="openmenu" id="hamburger-label">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>    
+        </div>        
+          
+        <center id="navbar" style="display: none;">
+            <ul class="menu-bar">
+                <a href="/home">Menu principal</a>
+            </ul>
+        </center>
 
         <div class="form-message" id="form-message"></div>
 
@@ -35,6 +44,16 @@
 </html>
 
 <script>
+        document.getElementById("menu").addEventListener("click", () => {
+        const navBar = document.getElementById("navbar")
+        
+        if (navBar.style.display === "none") {
+            navBar.style.display = "block"
+        } else {
+            navBar.style.display = "none"
+        }
+    })
+    
     async function getStudents() {
         const div = document.getElementById('students')
         div.innerHTML = '<option value="" disabled selected></option>'
