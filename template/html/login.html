@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <title>Livrets </title>
         <link rel="stylesheet" href="/template/css/log.css" />
     </head>
 
@@ -9,16 +11,18 @@
 
         <form class="box" action="" method="post" name="login">
 
-            <h1 class="box-title">Connexion</h1>
-            <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required />
-            <input type="password" class="box-input" name="password" placeholder="Mot de passe" required />
-            <input type="submit" value="Connexion " name="submit" class="box-button" />
+            <center>
+                <h1 class="box-title">Connexion</h1>
+                <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required />
+                <input type="password" class="box-input" name="password" placeholder="Mot de passe" required />
+                <input type="submit" value="Connexion " name="submit" class="box-button" />
 
-            <p class="box-register">Vous êtes nouveau ici? <a href="/register">S'inscrire</a></p>
-            
-            {{ if . }}
-                <p class="errorMessage">{{.}}</p>
-            {{ end }}
+                <p class="box-register">Vous êtes nouveau ici? <a href="/register">S'inscrire</a></p>
+                
+                {{ if . }}
+                    <p class="errorMessage">{{.}}</p>
+                {{ end }}
+            </center>
         </form>
     </body>
 </html>
