@@ -96,5 +96,5 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Set a cookie and redirect to the home page
 	cookie.AddCookies(w, id)
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, "/saisir", http.StatusSeeOther)
 }

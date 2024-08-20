@@ -16,7 +16,6 @@ func Routes() {
 	http.HandleFunc("/login", handler.LoginHandler)
 	http.HandleFunc("/register", handler.RegisterHandler)
 
-	http.HandleFunc("/home", middleware.VerificationCookie(handler.HomeHandler))
 	http.HandleFunc("/saisir", middleware.VerificationCookie(handler.SaisirHandler))
 
 	http.HandleFunc("/saisir/listCompetence", middleware.VerificationCookie(handler.ListCompetenceHandler))

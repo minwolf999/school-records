@@ -78,5 +78,5 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Add a cookie and redirect to th home page
 	cookie.AddCookies(w, teacher.Id)
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, "/saisir", http.StatusSeeOther)
 }
