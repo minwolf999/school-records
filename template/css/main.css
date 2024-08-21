@@ -198,23 +198,158 @@ label.center
     transform: translateX(-50%);
 }
 
-.hamburger-icon {
-    cursor: pointer;
-    position: absolute;
+#wrap{
+    width:10%;
+    height:10%;
+    position:absolute;
     right: 1%;
-    z-index: 1;
-  }
-  
-  .hamburger-icon span {
-    height: 5px;
-    width: 40px;
-    background-color: black;
-    display: block;
-    margin: 5px 0px 5px 0px;
-    transition: 0.7s ease-in-out;
-    transform: none;
-    cursor: pointer;
-  }
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:0.2s cubic-bezier(0.175, 0.885, 0.32, 1.575);
+    transition-delay:1.85s;
+    pointer-events:none;
+    filter:hue-rotate(70deg);
+    &:nth-of-type(2){
+        z-index:-1;
+        &:before{
+            content:'click me';
+            text-transform:uppercase;
+            position:absolute;
+            color:rgba(255,255,255,0.75);
+            z-index:999;
+            font-family:Futura;
+            letter-spacing:2px;
+            font-size:8px;
+            left:5px;
+            width:100%;
+            top:calc(50% + 40px);
+            text-align:center;
+            transition:transform 0.4s ease-in-out, opacity 0.4s ease-in-out, letter-spacing 0.3s ease-in-out;
+            transition-delay:2.5s, 2.5s, 0s;
+            opacity:1;
+        }
+        svg{
+            path{
+                transition-delay:0s, 0s;
+                stroke:#fff;
+            }
+            &:nth-of-type(2){
+                path{
+                    transition-delay:0.75s, 0.75s;
+                }
+            }
+            &:nth-of-type(3){
+                path{
+                    transition-delay:1.5s, 1.5s;
+                }
+            }
+        }
+    }
+}
+
+input[type='checkbox']{
+    position:absolute;
+    width:100px;
+    height:100px;
+    z-index:999;
+    opacity:0;
+    cursor:pointer;
+    right:1%;
+    top:1%;
+    transform:translateX(-50%) translateY(-50%);
+    &:hover ~ #wrap{
+        &:before{
+            transition-delay:2.5s, 2.5s, 0s;
+            letter-spacing:5px;
+        }
+    }
+    &:checked ~ #wrap{
+        transform:scaleX(0.9);
+        &:before{
+            opacity:0;
+            transform:translateY(25vh);
+            transition-delay:0s, 0s, 0s;
+        }
+        &:nth-of-type(2){
+            svg{
+                path{
+                    stroke:#fff;
+                }
+            }
+        }
+        svg{
+            transition-delay:0s;
+            &:first-of-type{
+                transform:translateY(0px);
+                path{
+                    transition-delay:0.5s, 0.5s;
+                }
+            }
+            &:nth-of-type(2){
+                transform:translateY(0px) scaleY(-1);
+                path{
+                    transition-delay:0.5s, 0.5s;
+                }
+            }
+            &:nth-of-type(3){
+                path{
+                    stroke-dasharray:10000px;
+                    stroke-dashoffset:10000px;
+                    transition-delay:1s, 1s;
+                }
+            }
+            path{
+                stroke-dasharray:5000px;
+                stroke-dashoffset:-4150px;
+                stroke:yellow;
+            }
+        }
+    }
+}
+
+
+
+svg{
+    position:absolute;
+    width:200px;
+    transition:0.2s cubic-bezier(0.175, 0.885, 0.32, 1.575);
+    transition-delay:2s;
+    margin-left:-9px;
+    &:first-of-type{
+        transform:translateY(5px);
+    }
+    &:nth-of-type(2){
+        transform:translateY(-6px) scaleY(-1);
+        path{
+            transition:stroke-dasharray 1.2s ease-in-out, stroke-dashoffset 1.2s ease-in-out, stroke 1.2s ease-in-out;
+            transition-delay:0.6s, 0.6s, 0.6s;
+        }
+    }
+    &:nth-of-type(3){
+        transform:translateY(25px);
+        path{
+            transition:stroke-dasharray .25s ease-in-out, stroke-dashoffset 0.25s ease-in-out, stroke 0.25s ease-in-out;
+            transition-delay:1.8s, 1.8s, 1.8s;
+        }
+    }
+    path{
+        stroke:blue;
+        stroke-width:40px;
+        fill:none;
+        stroke-linecap:round;
+        stroke-dasharray:4400px;
+        stroke-dashoffset:4200px;
+        transition:stroke-dasharray 1.5s ease-in-out, stroke-dashoffset 1.5s ease-in-out, stroke 1.5s ease-in-out;
+    }
+}
+
+
+
+
+
+
+
 
 .menu-bar {
     animation: fade_in_show 0.5s;
