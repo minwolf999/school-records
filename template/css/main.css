@@ -286,9 +286,3 @@ label.center
 .menu-bar #current {
     cursor: auto;
 }
-
-.center {
-    width: fit-content;
-    position: relative;
-    transform: translateX(-50%);
-}
