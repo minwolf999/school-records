@@ -70,13 +70,33 @@
 </html>
 
 <script>
-        document.getElementById("menu").addEventListener("click", () => {
+    document.getElementById("menu").addEventListener("click", () => {
         const navBar = document.getElementById("navbar")
+        const child = navBar.children[0]
         
         if (navBar.style.display === "none") {
             navBar.style.display = "block"
+            
+            let i = 50
+            let y = -15
+            const interval = setInterval(() => {
+                child.style.left = `${i}%`
+                
+                if (Math.floor(i%(50/15)) === 0) {
+                    child.style.top = `${y}vh`
+                    y++
+                }
+
+                i--
+                if (i < 0) {
+                    clearInterval(interval)
+                }
+            }, 8)
+
         } else {
             navBar.style.display = "none"
+            child.style.left = "50%"
+            child.style.top = "-15vh"
         }
     })
     
