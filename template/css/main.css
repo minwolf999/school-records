@@ -213,6 +213,7 @@ label.center
     margin: 5px 0px 5px 0px;
     transition: 0.7s ease-in-out;
     transform: none;
+    cursor: pointer;
   }
 
 .menu-bar {
@@ -284,5 +285,5 @@ label.center
 }
 
 .menu-bar #current {
-    cursor: auto;
+    cursor: not-allowed;
 }
