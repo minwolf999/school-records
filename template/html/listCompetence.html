@@ -7,8 +7,6 @@
     </head>
 
     <body>
-        <img src="/template/images/fond2.png" class="background">
-
         <input type='checkbox' id="menu">
         <div id='wrap'>
           <svg id='Layer_1' space='preserve' style='enable-background:new 0 0 820 864;' viewbox='0 0 820 864' x='0px' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
@@ -72,7 +70,7 @@
         
         <label for="categories">Catégories:</label>
         <select id="categorie" name="categorie" onchange="getCompetence()">
-            <option value="" disabled selected></option>
+            <option value=""></option>
 
             {{ range .Categories }}
                 <option value="{{.Id}}">{{.Name}}</option>
@@ -82,7 +80,7 @@
 
         <label for="nom_client">Année scolaire:</label>
         <select id="annee" name="annee" onchange="getStudents()">
-            <option value="" disabled selected></option>
+            <option value=""></option>
 
             {{ range .YearList }}
                 <option value={{.}}>{{.}}</option>

@@ -251,13 +251,11 @@ label.center
 input[type='checkbox']{
     position:absolute;
     width:100px;
-    height:100px;
+    height:10%;
     z-index:999;
     opacity:0;
     cursor:pointer;
-    right:1%;
-    top:1%;
-    transform:translateX(-50%) translateY(-50%);
+    right:3%;
     &:hover ~ #wrap{
         &:before{
             transition-delay:2.5s, 2.5s, 0s;
