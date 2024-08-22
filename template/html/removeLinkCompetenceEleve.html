@@ -60,8 +60,46 @@
           <img src="/template/images/logout.svg">
         </div>
       </div>
+
+        <div class="form-message" id="form-message"></div>
+
+        <div class="container2">
+          <div class="cta-form">
+            <h2>Remplissez le formulaire pour supprimer une compétence d'un élève !</h2> 
+          </div>
           
+          <div class="form">
+
+            <select id="annee" name="annee" class="form__input" onchange="getStudents()">
+            <option value=""></option>
+              {{ range .YearList }}
+                <option value={{.}}>{{.}}</option>
+              {{ end }}
+            </select>
+            <label for="annee" class="form__label">Année scolaire</label>
+            
+            <select id="selectStudent" class="form__input">
+              <option value=""></option>
+            </select>
+            <label for="selectStudent" class="form__label">Élève</label>
+
+            <select id="categorie" onchange="getCompetence()" class="form__input">
+              <option value=""></option>
+              
+              {{ range .Categories }}
+                <option value={{.Id}}>{{.Name}}</option>
+              {{ end }}
+            </select>
+            <label for="categorie" class="form__label">Catégorie de compétence:</label>
+
+            <div id="competence" class="form__input form__button__zone"></div>
+            <label for="competence" class="form__label higher2">Compétence valider à supprimer</label>
+          </div>
+        </div>
+
+
         <center id="navbar" style="display: none;">
+          <div class="blur">
             <ul class="menu-bar">
                 <a href="/saisir/listCompetence">Liste des compétences</a>
                 <a href="/saisir/addCompetence">Ajouter une compétence</a>
@@ -72,45 +110,8 @@
                 <a href="/saisir/changeSigningUp">Modifier la signature</a>
                 <a href="/observer">Généré le pdf</a>
             </ul>
+          </div>
         </center>
-
-        <div class="form-message" id="form-message"></div>
-
-        <form class="ajouterEleve_big">
-            <center>
-                <div class="left">
-                    <label for="annee">Année scolaire:</label><br>
-                    <select id="annee" name="annee" onchange="getStudents()">
-                        <option value="" disabled selected></option>
-                        {{ range .YearList }}
-                            <option value={{.}}>{{.}}</option>
-                        {{ end }}
-                    </select>
-                </div>
-
-                <div class="right">
-                    <label for="selectStudent">Élève:</label><br>
-                    <select id="selectStudent">
-                        <option value="" disabled selected></option>
-                    </select>
-                </div>
-                
-                <div class="lower">
-                    <label for="categorie">Catégorie de compétence:</label><br>
-                    <select id="categorie" onchange="getCompetence()">
-                        <option value="" disabled selected></option>
-    
-                        {{ range .Categories }}
-                            <option value={{.Id}}>{{.Name}}</option>
-                        {{ end }}
-                    </select><br><br>
-    
-                    <label for="competence">Compétence valider à supprimer:</label><br>
-                    <div id="competence"></div>
-                </div>
-
-            </center>
-        </form>
     </body>
 </html>
 
@@ -218,6 +219,7 @@
             console.log(datas[choiceStudent - 1].Competences[i]);
 
             const button = document.createElement('button')
+            button.className = "form__input"
             button.id = datas[choiceStudent - 1].Competences[i].Id
             button.innerHTML = datas[choiceStudent - 1].Competences[i].Name
 

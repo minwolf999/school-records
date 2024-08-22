@@ -60,8 +60,48 @@
           <img src="/template/images/logout.svg">
         </div>
       </div>
+
+        <div class="form-message">
+            {{ if .Error }}
+                <div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Error}} </div>
+            {{ else if .Success }}
+                <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Success}} </div>
+            {{ end }}
+        </div>
+
+        <div class="container2">
+          <div class="cta-form">
+            <h2>Remplissez le formulaire pour modifier un élève !</h2> 
+          </div>
           
+          <form class="form" method="post">
+            {{$studentClass := .Student.Class}}
+
+            <select class="form__input" id="classe" name="class">
+              {{ range .Class }}
+                {{if eq . "Ps"}}
+                  <option value="Ps" name="Ps" {{ if eq $studentClass "Ps" }} selected {{ end }} >Petite section</option>
+                {{else if eq . "Ms"}}
+                  <option value="Ms" name="Ms" {{ if eq $studentClass "Ms" }} selected {{ end }} >Moyenne section</option>
+                {{else if eq . "Gs"}}
+                  <option value="Gs" name="Gs" {{ if eq $studentClass "Gs" }} selected {{ end }} >Grande section</option>
+                {{ end }}
+              {{ end }}
+            </select>
+            <label for="name" class="form__label">Classe de l'élève</label>
+      
+            <input id="nom_eleve" type="text" name="name" placeholder="Nom de l'élève" value="{{.Student.Name}}" class="form__input">
+            <label for="nom_eleve" class="form__label">Nom de l'élève:</label>
+
+            <input id="annee_scolaire" type="text" name="year" placeholder="Année scolaire" value="{{.Student.Year}}" class="form__input">
+            <label for="annee_scolaire" class="form__label">Année Scolaire:</label>
+            
+            <input type="submit" value="Créer" name="submit" class="form__input better__align">
+          </form>
+        </div>
+
         <center id="navbar" style="display: none;">
+          <div class="blur">
             <ul class="menu-bar">
                 <a href="/saisir/listCompetence">Liste des compétences</a>
                 <a href="/saisir/addCompetence">Ajouter une compétence</a>
@@ -72,43 +112,8 @@
                 <a href="/saisir/changeSigningUp">Modifier la signature</a>
                 <a href="/observer">Généré le pdf</a>
             </ul>
+          </div>
         </center>
-
-        <div class="form-message">
-            {{ if .Error }}
-                <div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Error}} </div>
-            {{ else if .Success }}
-                <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> {{.Success}} </div>
-            {{ end }}
-        </div>
-        
-        <form method="post" class="ajouterEleve">
-            <center>
-                {{$studentClass := .Student.Class}}
-                <label for="classe_eleve" class="center">Classe de l'élève:</label>
-                <select id="classe" name="class">
-
-                    {{ range .Class }}
-                        {{if eq . "Ps"}}
-                            <option value="Ps" name="Ps" {{ if eq $studentClass "Ps" }} selected {{ end }} >Petite section</option>
-                        {{else if eq . "Ms"}}
-                            <option value="Ms" name="Ms" {{ if eq $studentClass "Ms" }} selected {{ end }} >Moyenne section</option>
-                        {{else if eq . "Gs"}}
-                            <option value="Gs" name="Gs" {{ if eq $studentClass "Gs" }} selected {{ end }} >Grande section</option>
-                        {{ end }}
-                    {{ end }}
-                    
-                    
-                </select><br>
-    
-                <label for="nom_eleve" class="center">Nom de l'élève:</label>
-                <input id="nom_eleve" type="text" name="name" placeholder="Nom de l'élève" value="{{.Student.Name}}"><br>
-                <label for="annee_scolaire" class="center">Année Scolaire:</label>
-                <input id="annee_scolaire" type="text" name="year" placeholder="Année scolaire" value="{{.Student.Year}}"><br>
-    
-                <input type="submit" value="Créer" name="submit"><br>
-            </center>
-        </form>
     </body>
 </html>
 

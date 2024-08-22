@@ -90,17 +90,9 @@ func ModifyEleve(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	students[0].Name = name
-	students[0].Class = class
-	students[0].Year = year
+	file, _ = os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	file.WriteString(fmt.Sprintf("%s [%s] %s - / route - modification success\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method))
+	file.Close()
 
-	// Execute the template with a success message
-	err = structure.Tpl.ExecuteTemplate(w, "modifyEleve.html", structure.Result{Class: strings.Split(teacher.Class, " | "), Student: students[0], Success: fmt.Sprintf("L'élève `%s` a été mis à jour avec succès!", name)})
-	if err != nil {
-		// Write someone comming to the modifyEleve route in the log file
-		file, _ := os.OpenFile(structure.App.LogPath[1:], os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-		file.WriteString(fmt.Sprintf("%s [%s] %s - /saisir/modifyEleve route - %s - error: %s\n", time.Now().Format("2006-01-02 15:04:05"), r.RemoteAddr, r.Method, id, err))
-		file.Close()
-		return
-	}
+	http.Redirect(w, r, "/saisir/listEleve", http.StatusSeeOther)
 }

@@ -179,16 +179,6 @@ label.center
     width:15%
 }
 
-.ajouterEleve_big .left {
-    position: absolute;
-    left: 10%;
-}
-
-.ajouterEleve_big .right {
-    position: absolute;
-    right: 10%;
-}
-
 .ajouterEleve_big .lower {
     position: absolute;
     top: 100px;
@@ -364,6 +354,7 @@ svg{
     width: 90%;
 
     padding-top: 15%;
+    padding-bottom: 15%;
 }
 
 .menu-bar {
@@ -464,7 +455,7 @@ svg{
 
     position: absolute;
     left: 50%;
-    bottom: 40%;
+    top: 15%;
     transform: translateX(-50%);
     
     @media (min-width: 768px) {
@@ -554,9 +545,47 @@ svg{
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    pointer-events: none; 
 }
 
 .better__align {
     margin: 0.625rem 1rem;
+}
+
+.font__black {
+    color: black;
+    margin-left: -5%;
+}
+
+.higher {
+    position: absolute;
+    top: 10.8rem;
+}
+
+.bigger {
+    height: 10rem;
+    margin-bottom: 15%;
+}
+
+.higher2 {
+    position: absolute;
+    top: 20.5rem;
+}
+
+.form__button__zone {
+    height: 15rem;
+
+    overflow-y: auto;
+}
+
+.text__label {
+    color: black;
+
+    position: absolute;
+    top: 13rem;
+    left: 38%;
+}
+
+.more__Lower {
+    margin-top: 2rem;
+    height: fit-content;
 }
