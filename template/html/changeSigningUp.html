@@ -104,18 +104,19 @@
             if (navBar.style.display === "none") {
                 navBar.style.display = "block"
 
-                let i = 50
-                let y = -15
+                
+                let i = -50
+                let y = -30
                 const interval = setInterval(() => {
                     child.style.left = `${i}%`
 
-                    if (Math.floor(i%(50/15)) === 0) {
+                    if (Math.floor(Math.abs(i)%(50/30)) === 0) {
                         child.style.top = `${y}vh`
                         y++
                     }
 
-                    i--
-                    if (i < 0) {
+                    i++
+                    if (i > 0) {
                         clearInterval(interval)
                     }
                 }, 8)
@@ -123,7 +124,7 @@
             } else {
                 navBar.style.display = "none"
                 child.style.left = "50%"
-                child.style.top = "-15vh"
+                child.style.top = "-30vh"
             }
         }, 2000)
     })

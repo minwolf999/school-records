@@ -1,3 +1,8 @@
+body {
+    height: 98vh;
+    width: 96vw;
+}
+
 .background {
     position: fixed;
     left: 0;
@@ -199,12 +204,11 @@ label.center
 }
 
 .navContainer {
-    position: relative;
+    position: absolute;
+    z-index: 2;
 
     width: 10%;
     height: 75.4px;
-
-    float: right;
 }
 
 #wrap{
@@ -350,6 +354,18 @@ svg{
     }
 }
 
+.blur {
+    position: relative;
+    z-index: 1;
+
+    backdrop-filter: blur(8px);
+
+    height: 90%;
+    width: 90%;
+
+    padding-top: 15%;
+}
+
 .menu-bar {
     animation: fade_in_show 0.5s;
 
@@ -430,4 +446,117 @@ svg{
     width: 75.4px;
 
     cursor: pointer;
+}
+
+.container2 {
+    width: 100%;
+    max-width: 768px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem 1.5rem;
+    background-color: #d8dbce;
+    border-radius: 25px;
+    box-shadow: 10px 10px 29px -1px rgba(0,0,0,0.51);
+    -webkit-box-shadow: 10px 10px 29px -1px rgba(0,0,0,0.51);
+    -moz-box-shadow: 10px 10px 29px -1px rgba(0,0,0,0.51);
+
+    position: absolute;
+    left: 50%;
+    bottom: 40%;
+    transform: translateX(-50%);
+    
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .cta-form {
+        margin-bottom: 2rem;
+        text-align: center;
+      
+        @media (min-width: 768px) {
+            margin-bottom: 0;
+            margin-right: 2rem;
+            text-align: left;
+        }
+      
+        h2 {
+            font-size: 1.5rem;
+            width: 100%;
+            max-width: 25ch;
+            margin: 0 auto;
+            text-align: center;
+      
+            @media (min-width: 768px) {
+                text-align: left;
+                margin: 0;
+            }
+        }
+      
+        p {
+            margin-top: 1rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 24ch;
+        }
+    }
+}
+
+.form {
+    align-self: center;
+}
+ 
+.form__input {
+    width: clamp(120px, 50vw, 420px);
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin: 0.625rem auto;
+    transition: all 250ms;
+    @media (min-width: 768px) {
+        width: clamp(120px, 35vw, 420px);
+    }
+    
+    &:focus {
+        outline: none;
+        border-top-color: rgba(0,0,0,0.1);
+    }
+    
+    &:focus + .form__label, &:not(:placeholder-shown) + .form__label {
+        transform: translateY(-4.50rem) scale(1);
+        color: black;
+    }
+    
+    &::placeholder {
+        display: none;
+        color: transparent;
+      
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    &:not(:placeholder-shown) {
+        border-top-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.form__label {
+    font-size: 1rem;
+    color: grey;
+    display: block;
+    transform: translate(1.25rem,-2.5rem);
+    transform-origin: 0 0;
+    transition: all 500ms;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; 
+}
+
+.better__align {
+    margin: 0.625rem 1rem;
 }
