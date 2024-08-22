@@ -198,11 +198,19 @@ label.center
     transform: translateX(-50%);
 }
 
+.navContainer {
+    position: relative;
+
+    width: 10%;
+    height: 75.4px;
+
+    float: right;
+}
+
 #wrap{
-    width:10%;
-    height:10%;
     position:absolute;
-    right: 1%;
+    right: 25%;
+    top: 50%;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -251,11 +259,11 @@ label.center
 input[type='checkbox']{
     position:absolute;
     width:100px;
-    height:10%;
+    height:100%;
     z-index:999;
     opacity:0;
     cursor:pointer;
-    right:3%;
+    right: 0;
     &:hover ~ #wrap{
         &:before{
             transition-delay:2.5s, 2.5s, 0s;
@@ -310,7 +318,7 @@ input[type='checkbox']{
 
 svg{
     position:absolute;
-    width:200px;
+    width: 200px;
     transition:0.2s cubic-bezier(0.175, 0.885, 0.32, 1.575);
     transition-delay:2s;
     margin-left:-9px;
@@ -341,13 +349,6 @@ svg{
         transition:stroke-dasharray 1.5s ease-in-out, stroke-dashoffset 1.5s ease-in-out, stroke 1.5s ease-in-out;
     }
 }
-
-
-
-
-
-
-
 
 .menu-bar {
     animation: fade_in_show 0.5s;
@@ -419,4 +420,14 @@ svg{
 
 .menu-bar #current {
     cursor: not-allowed;
+}
+
+.logout img {
+    position: absolute;
+    top: 2%;
+    left: 1%;
+
+    width: 75.4px;
+
+    cursor: pointer;
 }

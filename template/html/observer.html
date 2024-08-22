@@ -7,6 +7,7 @@
     </head>
 
     <body>
+      <div class="navContainer">
         <input type='checkbox' id="menu">
         <div id='wrap'>
           <svg id='Layer_1' space='preserve' style='enable-background:new 0 0 820 864;' viewbox='0 0 820 864' x='0px' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>
@@ -54,6 +55,11 @@
             </g>
           </svg>
         </div>        
+
+        <div class="logout" onclick="Logout()">
+          <img src="/template/images/logout.svg">
+        </div>
+      </div>
           
         <center id="navbar" style="display: none;">
             <ul class="menu-bar">
@@ -118,8 +124,20 @@
                 child.style.top = "-15vh"
             }
         }, 2000)
-        
     })
+
+    function Logout() {
+      var cookies = document.cookie.split(";"); 
+     
+      for (var i = 0; i < cookies.length; i++) { 
+        var cookie = cookies[i]; 
+        var eqPos = cookie.indexOf("="); 
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie; 
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/"; 
+      }
+
+      location.reload()
+    }
     
     async function getStudents() {
         const div = document.getElementById('students')
