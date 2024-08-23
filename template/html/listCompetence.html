@@ -61,26 +61,29 @@
           </div>
         </div>
 
-        <label for="categories">Catégories</label>
-        <select id="categorie" name="categorie" onchange="getCompetence()" style="margin-top: 80px;">
-            <option value=""></option>
+        <div class="list">
+          <div class="eleve">
+            <label for="categories">Catégories</label>
+            <select id="categorie" name="categorie" onchange="getCompetence()">
+              <option value=""></option>
 
-            {{ range .Categories }}
-                <option value="{{.Id}}">{{.Name}}</option>
-            {{ end }}
-        </select>
-        <br><br>
+              {{ range .Categories }}
+                  <option value="{{.Id}}">{{.Name}}</option>
+              {{ end }}
+            </select>
+            <br><br>
 
-        <label for="nom_client">Année scolaire</label>
-        <select id="annee" name="annee" onchange="getStudents()">
-            <option value=""></option>
+            <label for="nom_client">Année scolaire</label>
+            <select id="annee" name="annee" onchange="getStudents()">
+              <option value=""></option>
 
-            {{ range .YearList }}
+              {{ range .YearList }}
                 <option value={{.}}>{{.}}</option>
-            {{ end }}
-        </select>
+              {{ end }}
+            </select>
+          </div>
 
-        <div class="container">
+          <div class="container3">
             <table class="styled-table">
                 <thead>
                 <tr>
@@ -100,6 +103,7 @@
                 </tbody>
             </table>
         </div>
+      </div>
         
         <center id="navbar" style="display: none;">
           <div class="blur">

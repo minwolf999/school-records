@@ -44,8 +44,8 @@ body {
     z-index: -10;
 }
 
-.container {
-    width: 100%;
+.container3 {
+    width: fit-content;
 }
 
 ul.menu-li {
@@ -149,9 +149,9 @@ ul.menu-li li a#imprimer:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
+.styled-table thead tr {    
+    background-color: #d8dbce;
+    color: #000;
     text-align: left;
 }
 
@@ -165,12 +165,12 @@ ul.menu-li li a#imprimer:hover {
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+    border-bottom: 2px solid #d8dbce;
 }
 
 .styled-table tbody tr.active-row {
     font-weight: bold;
-    color: #009879;
+    color: #000;
 }
 
 form select, form input[type="text"], form button, form label {
@@ -629,4 +629,25 @@ svg{
 
 .Lower {
     margin-top: 2rem;
+}
+
+.list {
+    width: fit-content;
+    margin-left: 50%;
+    transform: translateX(-50%);
+
+    position: relative;
+    top: 80px;
+}
+
+.eleve {
+    width: fit-content;
+    background-color: #d8dbce;
+
+    padding: 20px;
+    border-radius: 10px;
+
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
