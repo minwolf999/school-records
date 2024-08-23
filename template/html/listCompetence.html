@@ -61,8 +61,8 @@
           </div>
         </div>
 
-        <label for="categories">Catégories:</label>
-        <select id="categorie" name="categorie" onchange="getCompetence()">
+        <label for="categories">Catégories</label>
+        <select id="categorie" name="categorie" onchange="getCompetence()" style="margin-top: 80px;">
             <option value=""></option>
 
             {{ range .Categories }}
@@ -71,7 +71,7 @@
         </select>
         <br><br>
 
-        <label for="nom_client">Année scolaire:</label>
+        <label for="nom_client">Année scolaire</label>
         <select id="annee" name="annee" onchange="getStudents()">
             <option value=""></option>
 
