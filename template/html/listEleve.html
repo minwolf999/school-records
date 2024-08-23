@@ -80,7 +80,6 @@
                     <th>Nom</th>
                     <th>Classe</th>
                     <th>Année</th>
-                    <th>Compétences</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -168,19 +167,12 @@
         }
 
         datas.forEach(data => {            
-            var competencesFormated = ""
-            if (data.Competences) {
-                data.Competences.forEach(competence => {
-                    competencesFormated += competence.Name + "<br>"
-                })
-            }
 
             const tr = document.createElement('tr')
             tr.innerHTML = `
                 <td>${data.Name}</td>
                 <td>${data.Class}</td>
                 <td>${data.Year}</td>
-                <td>${competencesFormated}</td>
                 <td><input type="button" value="Modifier l'élève" name="modifier" id="modify${data.Id}"></td>
                 <td><input type="button" value="Supprimer l'élève" name="supprimer" onclick="Remove(this)" id="${data.Id}"></td>
             `
