@@ -18,26 +18,6 @@
     background-position: 50px 50px;
   }
 }
-@-webkit-keyframes bg-scrolling {
-  0% {
-    background-position: 50px 50px;
-  }
-}
-@-moz-keyframes bg-scrolling {
-  0% {
-    background-position: 50px 50px;
-  }
-}
-@-o-keyframes bg-scrolling {
-  0% {
-    background-position: 50px 50px;
-  }
-}
-@keyframes bg-scrolling {
-  0% {
-    background-position: 50px 50px;
-  }
-}
 body {
     background: url("/template/images/fond2.png") repeat 0 0;
     -webkit-animation: bg-scrolling-reverse 2s infinite;
