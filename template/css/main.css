@@ -19,7 +19,7 @@
   }
 }
 body {
-    background: url("/template/images/fond2.png") repeat 0 0;
+    background: url("/template/images/fond.png") repeat 0 0;
     -webkit-animation: bg-scrolling-reverse 2s infinite;
     -moz-animation: bg-scrolling-reverse 2s infinite;
     -o-animation: bg-scrolling-reverse 2s infinite;
