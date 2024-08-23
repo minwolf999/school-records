@@ -107,6 +107,9 @@ ul.menu-li li a#imprimer:hover {
 }
 
 .alert {
+    position: absolute;
+    top: 9dvb;
+
     padding: 20px;
     background-color: #f44336; /* Red */
     color: white;
@@ -118,14 +121,20 @@ ul.menu-li li a#imprimer:hover {
 }
 
 .alert.sucess {
+    position: absolute;
+    top: 90px;
     background-color: #04AA6D;
 }
 
 .alert.info {
+    position: absolute;
+    top: 90px;
     background-color: #2196F3;
 }
 
 .alert.warning {
+    position: absolute;
+    top: 90px;
     background-color: #ff9800;
 }
 
