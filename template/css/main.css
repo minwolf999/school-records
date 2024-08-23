@@ -633,8 +633,6 @@ svg{
 
 .list {
     width: fit-content;
-    margin-left: 50%;
-    transform: translateX(-50%);
 
     position: relative;
     top: 80px;
