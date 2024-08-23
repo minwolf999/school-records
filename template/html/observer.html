@@ -60,7 +60,28 @@
           <img src="/template/images/logout.svg">
         </div>
       </div>
+
+        <div class="form-message" id="form-message"></div>
+
+        <div class="container2">
+          <div class="cta-form">
+            <h2>Remplissez le formulaire pour générer un pdf !</h2> 
+          </div>
           
+          <div class="form">
+            <select id="annee" name="annee" onchange="getStudents()" class="form__input">
+              <option value=""></option>
+              
+              {{ range . }}
+                <option value={{.}}>{{.}}</option>
+              {{ end }}
+            </select>
+            <label for="annee" class="form__label">Année scolaire</label>
+
+            <div id="students" class="form__input form__button__zone"></div>
+          </div>
+        </div>
+        
         <center id="navbar" style="display: none;">
           <div class="blur">
             <ul class="menu-bar">
@@ -75,23 +96,6 @@
             </ul>
           </div>
         </center>
-
-        <div class="form-message" id="form-message"></div>
-
-        <div class="ajouterEleve_big">
-            <center>
-                <label for="annee">Année scolaire:</label><br>
-                <select id="annee" name="annee" onchange="getStudents()">
-                    <option value="" disabled selected></option>
-
-                    {{ range . }}
-                        <option value={{.}}>{{.}}</option>
-                    {{ end }}
-                </select><br><br>
-
-                <div id="students"></div>
-            </center>
-        </div>
     </body>
 </html>
 
@@ -160,6 +164,7 @@
             const button = document.createElement('button')
             button.id = data.Id
             button.innerHTML = data.Name
+            button.className = "form__input"
 
             div.appendChild(button)
 

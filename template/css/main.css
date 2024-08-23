@@ -344,7 +344,7 @@ svg{
 }
 
 .blur {
-    position: relative;
+    position: fixed;
     z-index: 1;
 
     backdrop-filter: blur(8px);
@@ -557,7 +557,11 @@ svg{
 
 .higher {
     position: absolute;
-    top: 10.8rem;
+    top: 18rem;
+
+    @media (min-width: 768px) {
+        top: 10.8rem;
+    }
 }
 
 .bigger {
@@ -567,7 +571,11 @@ svg{
 
 .higher2 {
     position: absolute;
-    top: 20.5rem;
+    top: 28rem;
+
+    @media (min-width: 768px) {
+        top: 20.5rem;
+    }
 }
 
 .form__button__zone {
@@ -587,4 +595,8 @@ svg{
 .more__Lower {
     margin-top: 2rem;
     height: fit-content;
+}
+
+.Lower {
+    margin-top: 2rem;
 }
