@@ -1,4 +1,8 @@
 database/database.sqlite3
 database/backup/backup.sqlite3
-log/*
-template/upload/*
+
+log/*.log
+
+template/upload/*.png
+template/upload/*.jpg
+template/upload/*.jpeg

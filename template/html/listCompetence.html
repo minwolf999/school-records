@@ -215,7 +215,8 @@
         const valueSelectedYear = selectYear.options[choiceYear].value
 
         if (valueSelectedCateg === "" || valueSelectedYear === "") {
-            return
+          getCompetence()
+          return
         }
 
         const datas = await fetch(`http://${location.host}/getCompetencesWithStudents`, { method: "POST", body: JSON.stringify([valueSelectedCateg, valueSelectedYear]) }).then(data => data.json())
