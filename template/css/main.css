@@ -107,6 +107,7 @@ ul.menu-li li a#imprimer:hover {
 }
 
 .alert {
+    z-index: 1;
     position: absolute;
     top: 9dvb;
 
@@ -121,18 +122,21 @@ ul.menu-li li a#imprimer:hover {
 }
 
 .alert.sucess {
+    z-index: 1;
     position: absolute;
     top: 90px;
     background-color: #04AA6D;
 }
 
 .alert.info {
+    z-index: 1;
     position: absolute;
     top: 90px;
     background-color: #2196F3;
 }
 
 .alert.warning {
+    z-index: 1;
     position: absolute;
     top: 90px;
     background-color: #ff9800;
