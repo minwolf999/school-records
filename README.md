@@ -1,6 +1,6 @@
 # School Records
 
-School File For Kindergarten is a golang application. These program has been created in 2 language (English for the back-end and French for the front-end).
+School Records is a golang application. These program has been created in 2 language (English for the back-end and French for the front-end).
 
 ## Table of Contents
 
