@@ -92,6 +92,8 @@ func GetStudents(w http.ResponseWriter, r *http.Request) {
 
 			students[i].Competences[y] = tmp[0]
 		}
+
+		students[i].Competences = utility.FilterCompetences(students[i].Competences)
 	}
 
 	students = utility.FilterByClassAndName(students)
