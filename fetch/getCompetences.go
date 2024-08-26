@@ -3,6 +3,7 @@ package fetch
 import (
 	"dossier_scolaire/database/controller"
 	"dossier_scolaire/structure"
+	"dossier_scolaire/utility"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -83,6 +84,8 @@ func GetCompetences(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	competences = utility.FilterCompetences(competences)
 
 	// Send as a JSON to the user
 	w.Header().Set("Content-Type", "application/json")
