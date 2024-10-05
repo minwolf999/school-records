@@ -82,6 +82,9 @@
               </select>
               <label for="nom_client" class="form__label">Année scolaire</label>
             
+              <input type="button" class="form__input" style="width: fit-content; margin: 5% 0 0 10%; padding: 1%;" onclick="SelectAll(true)" value="Sélectionner tous les élèves">
+              <input type="button" class="form__input" style="width: fit-content; padding: 1%;" onclick="SelectAll(false)" value="Désélectionner tous les élèves">
+
               <select id="students" name="students" class="form__input bigger" multiple>
                 <option value="" disabled selected></option>
               </select>
@@ -128,6 +131,21 @@
 </html>
 
 <script>
+  function SelectAll(selectedStatus) {
+    const select = document.getElementById('students')
+    if (select) {
+      var children = select.children;
+      for (var i = 0; i < children.length; i++) {
+        if (i == 0) {
+          continue
+        }
+
+        children[i].selected = selectedStatus
+      }
+    }
+  }
+
+
     document.getElementById("menu").addEventListener("click", () => {
         setTimeout(()=>{
             const navBar = document.getElementById("navbar")
