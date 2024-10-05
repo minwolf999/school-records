@@ -73,7 +73,7 @@
           </div>
           
           <form class="form" method="post">
-              <select id="annee" name="annee" onchange="getStudents()" class="form__input">
+              <select id="annee" name="annee" onchange="getClasses()" class="form__input">
                 <option value="" disabled selected></option>
                 
                 {{ range .YearList }}
@@ -81,6 +81,11 @@
                 {{ end }}
               </select>
               <label for="nom_client" class="form__label">Année scolaire</label>
+
+              <select id="class" name="class" onchange="getStudents()" class="form__input">
+                <option value="" disabled selected></option>
+              </select>
+              <label for="class" class="form__label">Classe</label>
             
               <input type="button" class="form__input" style="width: fit-content; margin: 5% 0 0 10%; padding: 1%;" onclick="SelectAll(true)" value="Sélectionner tous les élèves">
               <input type="button" class="form__input" style="width: fit-content; padding: 1%;" onclick="SelectAll(false)" value="Désélectionner tous les élèves">
@@ -88,7 +93,7 @@
               <select id="students" name="students" class="form__input bigger" multiple>
                 <option value="" disabled selected></option>
               </select>
-              <label for="students" class="form__label higher">Élèves</label>
+              <label for="students" class="form__label higher" style="top: 16rem;">Élèves</label>
             
               <select id="categories" name="categories" onchange="GetSubCategories()" class="form__input">
                 <option value="" disabled selected></option>
@@ -191,8 +196,41 @@
 
       location.reload()
     }
+
+    const getClasses = async () => {
+      const select = document.getElementById('class')
+        select.innerHTML = '<option value="" disabled selected></option>'
+
+        const selected = document.getElementById("annee")
+        const choice = selected.selectedIndex
+ 
+        const valueSelected = selected.options[choice].value
+
+        const datas = await fetch(`http://${location.host}/getStudents`, { method: "POST", body: JSON.stringify({ year: valueSelected }) }).then(data => data.json())
+        if (datas.length === 0) {
+            return
+        }
+
+        const uniqueClasses = [...new Set(datas.map(item => item.Class))];
+        
+
+        uniqueClasses.forEach(data => {
+            const option = document.createElement('option')
+            option.value = data
+            option.innerHTML = data
+
+            select.appendChild(option)
+        });
+    }
     
     const getStudents = async () => {
+        const selectClass = document.getElementById("class")
+        const choiceClass = selectClass.selectedIndex
+        const valueSelectedClass = selectClass.options[choiceClass].value
+        if (valueSelectedClass === "") {
+          return
+        }
+
         const select = document.getElementById('students')
         select.innerHTML = '<option value="" disabled selected></option>'
 
@@ -207,11 +245,13 @@
         }
 
         datas.forEach(data => {
+          if (data.Class === valueSelectedClass) {
             const option = document.createElement('option')
             option.value = data.Id
             option.innerHTML = data.Name
 
             select.appendChild(option)
+          }
         });
     }
 
@@ -232,12 +272,13 @@
 
         const datas = await fetch(`http://${location.host}/getSubCategories`, { method: "POST", body: JSON.stringify(valueSelectedCateg) }).then(data => data.json())
         if (!datas) {
-            return
+          getCompetences()
+          return
         }
 
         if (datas.length === 0) {
-            getCompetences()
-            return
+          getCompetences()
+          return
         }
 
         datas.forEach(data => {

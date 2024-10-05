@@ -1,5 +1,4 @@
-database/database.sqlite3
-database/backup/backup.sqlite3
+*.sqlite3
 
 log/*.log
 
