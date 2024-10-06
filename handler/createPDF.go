@@ -96,6 +96,10 @@ func CreatePDF(w http.ResponseWriter, r *http.Request) {
 
 	// generate the pdf
 	pdf := utility.GeneratePDF(student, teacher)
+	
+	w.Header().Set("Content-Type", "application/pdf")
+	w.Header().Set("Content-Disposition", fmt.Sprintf(`inline; filename="%s.pdf"`, student.Name))
+
 	err = pdf.Output(w)
 	if err != nil {
 		// Write someone comming to the createPDF route in the log file
