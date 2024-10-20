@@ -90,7 +90,11 @@ func GetStudents(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			students[i].Competences[y] = tmp[0]
+			if len(tmp) == 0 {
+				students[i].Competences[y] = structure.Competence{}
+			} else {
+				students[i].Competences[y] = tmp[0]
+			}
 		}
 
 		students[i].Competences = utility.FilterCompetences(students[i].Competences)
