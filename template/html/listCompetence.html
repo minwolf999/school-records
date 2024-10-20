@@ -195,10 +195,14 @@
                 <td></td>
                 <td></td>
                 <td><input type="button" value="Modifier la compétence" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
-                <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
+                <td><input type="button" id="${data.Id}" name="${data.Id}" value="Supprimer la compétence" name="supprimer"></td>
             `
 
             tbody.appendChild(tr)
+
+            document.getElementsByName(data.Id)[0].addEventListener('click', () => {
+              Remove(data)
+            })
         });
     }
 
@@ -228,10 +232,12 @@
             var studentsFormated = ""
             var classFormated = ""
 
-            data.Students.forEach(student => {
-                studentsFormated += `${student.Name}<br>`
-                classFormated += `${student.Class}<br>`
-            })
+            if (data.Students) {
+              data.Students.forEach(student => {
+                  studentsFormated += `${student.Name}<br>`
+                  classFormated += `${student.Class}<br>`
+              })
+            }
 
             const tr = document.createElement('tr')
             tr.innerHTML = `
@@ -242,12 +248,15 @@
                 <td>${studentsFormated}</td>
                 <td>${classFormated}</td>
                 <td><input type="button" value="Modifier l'élève" name="modifier" id="${data.Id}" onclick="Modify(this)"></td>
-                <td><input type="button" id="${data.Id}" value="Supprimer la compétence" name="supprimer" onclick="Remove(this)"></td>
+                <td><input type="button" id="${data.Id}" name="${data.Id}" value="Supprimer la compétence" name="supprimer"></td>
             `
-
+            
             tbody.appendChild(tr)
+            
+            document.getElementsByName(data.Id)[0].addEventListener('click', () => {
+              Remove(data)
+            })
         });
-        console.log(datas);
     }
 
     function Modify(e) {
@@ -255,12 +264,14 @@
         location.href = "/saisir/modifyCompetence"
     }
 
-    function Remove(e) {
+    function Remove(e) {      
+      if (confirm(onSubmit=`Êtes vous sûr de vouloir suppimer la competence ${e.Name}?`)) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/deleteCompetence', false);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(e.id));
-
-        location.reload()
+  
+        getStudents()
+      }
     }
 </script>

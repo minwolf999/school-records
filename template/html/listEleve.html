@@ -187,7 +187,7 @@
                 <td>${compétences}</td>
                 <td>${catégories}</td>
                 <td><input type="button" value="Modifier l'élève" name="modifier" id="modify${data.Id}"></td>
-                <td><input type="button" value="Supprimer l'élève" name="supprimer" onclick="Remove(this)" id="${data.Id}"></td>
+                <td><input type="button" value="Supprimer l'élève" name="supprimer" id="remove${data.Id}"></td>
             `
             tbody.appendChild(tr)
             
@@ -195,6 +195,13 @@
             if (modify) {
                 modify.addEventListener('click', () => {
                     Modify(data)
+                })
+            }
+
+            const remove = document.getElementById(`remove${data.Id}`)
+            if (remove) {
+                remove.addEventListener('click', () => {
+                    Remove(data)
                 })
             }
         });
@@ -206,11 +213,13 @@
     }
 
     function Remove(e) {
+      if (confirm(onSubmit=`Êtes vous sûr de vouloir suppimer ${e.Name}?`)) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/deleteEleve', false);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(e.id));
 
-        location.reload()
+        getStudents()
+      }
     }
 </script>

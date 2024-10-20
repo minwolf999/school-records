@@ -212,11 +212,8 @@
 
         for (let i = 0; i < datas[choiceStudent - 1].Competences.length; i++) {
             if (datas[choiceStudent - 1].Competences[i].Categorie.Id !== valueSelectedCateg) {
-                console.log("skip");
                 continue
             }
-
-            console.log(datas[choiceStudent - 1].Competences[i]);
 
             const button = document.createElement('button')
             button.className = "form__input"
@@ -226,13 +223,16 @@
             div.appendChild(button)
 
             button.addEventListener('click', async () => {
+              if (confirm(`Êtes vous sûr de vouloir supprimer la compétence ${datas[choiceStudent - 1].Competences[i].Name} à ${selectStudent.options[choiceStudent].innerHTML}`)) {
                 const res = await fetch(`http://${location.host}/removeLink`, { method: "POST", body: JSON.stringify({ studentId: selectStudent.options[choiceStudent].id, competenceId: datas[choiceStudent - 1].Competences[i].Id }) }).then(data => data.json())
 
                 if (res === true) {
-                    location.reload()
+                  getCompetence()
+                  return
                 } else {
                     document.getElementById('form-message').innerHTML = `<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> Impossible de supprimer la compétence </div>`
                 }
+              }
             })
         }
     }
