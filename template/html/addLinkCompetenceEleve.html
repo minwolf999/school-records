@@ -67,13 +67,13 @@
             <div class="alert sucess"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>{{ .Success }}</div>
         {{ end }}
 
-        <div class="container2">
+        <div class="container2" style="top: 0.1%">
           <div class="cta-form">
             <h2>Remplissez le formulaire pour valider une compétence à un élève !</h2> 
           </div>
           
           <form class="form" method="post">
-              <select id="annee" name="annee" onchange="getClasses()" class="form__input">
+              <select id="annee" name="annee" onchange="getClasses()" class="form__input" style="width: fit-content; margin-left: 4%;">
                 <option value="" disabled selected></option>
                 
                 {{ range .YearList }}
@@ -82,10 +82,10 @@
               </select>
               <label for="nom_client" class="form__label">Année scolaire</label>
 
-              <select id="class" name="class" onchange="getStudents()" class="form__input">
+              <select id="class" name="class" onchange="getStudents()" class="form__input" style="width: fit-content; margin-top: -15%; margin-right: 5%;">
                 <option value="" disabled selected></option>
               </select>
-              <label for="class" class="form__label">Classe</label>
+              <label for="class" class="form__label" style="width: 85%; text-align: end;">Classe</label>
             
               <input type="button" class="form__input" style="width: fit-content; margin: 5% 0 0 10%; padding: 1%;" onclick="SelectAll(true)" value="Sélectionner tous les élèves">
               <input type="button" class="form__input" style="width: fit-content; padding: 1%;" onclick="SelectAll(false)" value="Désélectionner tous les élèves">
@@ -93,7 +93,7 @@
               <select id="students" name="students" class="form__input bigger" multiple>
                 <option value="" disabled selected></option>
               </select>
-              <label for="students" class="form__label higher" style="top: 16rem;">Élèves</label>
+              <label for="students" class="form__label higher" style="top: 11rem;">Élèves</label>
             
               <select id="categories" name="categories" onchange="GetSubCategories()" class="form__input">
                 <option value="" disabled selected></option>
